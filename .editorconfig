@@ -1,0 +1,132 @@
+root = true
+
+###########################################
+# Global defaults
+###########################################
+[*]
+indent_style = space
+indent_size = 4
+charset = utf-8
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+###########################################
+# File-specific indentation
+###########################################
+
+[*.{json,yml,yaml,xml}]
+indent_size = 2
+
+[.editorconfig]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+
+###########################################
+# C# Shared formatting rules
+###########################################
+[*.cs]
+
+indent_size = 4
+
+########## Basic indentation ##########
+csharp_indent_block_contents = true
+csharp_indent_braces = false
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+
+########## Using Directives ##########
+# Sort System.* first
+dotnet_sort_system_directives_first = true
+
+# Remove unused usings automatically
+dotnet_remove_unnecessary_usings = true : suggestion
+
+########## Expression Preferences ##########
+dotnet_style_namespace_usings = inside:error  ## prefer usings inside namespaces
+dotnet_style_prefer_simplified_boolean_expressions = true : suggestion
+dotnet_style_prefer_simplified_interpolation = true : suggestion
+dotnet_style_null_propagation = true : suggestion
+dotnet_style_coalesce_expression = true : suggestion
+
+########## Nullability & analyzers ##########
+dotnet_enable_roslyn_analyzers = true
+dotnet_analyzer_diagnostic.severity = suggestion
+
+
+###########################################
+# Naming conventions (shared everywhere)
+###########################################
+# Private fields use _camelCase
+
+dotnet_naming_rule.private_fields_should_be_camel_case.severity = suggestion
+dotnet_naming_rule.private_fields_should_be_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_case.style = camel_case_underscore
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_style.camel_case_underscore.capitalization = camel_case
+dotnet_naming_style.camel_case_underscore.required_prefix = _
+
+
+#######################################################################
+# PROJECT-SPECIFIC RULES BASED ON YOUR FOLDER STRUCTURE
+#######################################################################
+
+#############################################################################
+# 1️⃣ Minimal API Project — AHA.*.Api
+#############################################################################
+[**/AHA.*.Api/**.cs]
+
+# Prefer var for concise minimal API handlers
+csharp_style_var_for_built_in_types = true : suggestion
+csharp_style_var_when_type_is_apparent = true : suggestion
+csharp_style_var_elsewhere = true : silent
+
+# Prefer concise expression-bodied endpoints
+csharp_style_expression_bodied_methods = true : suggestion
+csharp_style_expression_bodied_properties = true : suggestion
+csharp_style_expression_bodied_local_functions = when_on_single_line : suggestion
+
+
+#############################################################################
+# 2️⃣ Class Libraries — Application, Domain, Infrastructure, Contracts, Seedwork
+#############################################################################
+# Matched exactly to your real folder names
+[**/AHA.*.Application/**.cs]
+[**/AHA.*.Domain/**.cs]
+[**/AHA.*.Infrastructure/**.cs]
+[**/AHA.*.Contracts/**.cs]
+[**/AHA.*.Seedwork/**.cs]
+
+# Prefer explicit types for API clarity
+csharp_style_var_for_built_in_types = false : suggestion
+csharp_style_var_when_type_is_apparent = false : suggestion
+csharp_style_var_elsewhere = false : suggestion
+
+# More conservative expression-bodied usage
+csharp_style_expression_bodied_methods = false : suggestion
+csharp_style_expression_bodied_properties = when_on_single_line : suggestion
+csharp_style_expression_bodied_local_functions = false : suggestion
+
+
+#############################################################################
+# 3️⃣ Test Projects — Under /src/Tests/
+#############################################################################
+# Matches your real test project folders
+[**/Tests/**.cs]
+
+# Tests should be flexible & readable → var preferred
+csharp_style_var_for_built_in_types = true : suggestion
+csharp_style_var_when_type_is_apparent = true : suggestion
+csharp_style_var_elsewhere = true : suggestion
+
+# Do not use expression-bodied test methods for clarity
+csharp_style_expression_bodied_methods = false : suggestion
+
+# But allow local helpers to be expression-bodied
+csharp_style_expression_bodied_local_functions = when_on_single_line : suggestion
