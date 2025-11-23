@@ -24,6 +24,21 @@ namespace AHA.CongestionTax.Application.Queries.Readers
             result.Should().NotBeNull();
             result!.City.Should().Be("Gothenburg");
         }
-    }
 
+        [Fact]
+        public async Task GetRulesForCityAsync_WhenKeyMissing_ReturnsNull()
+        {
+            // Arrange
+            var basePath = Path.Combine(AppContext.BaseDirectory, "TestData");
+            Directory.CreateDirectory(basePath);
+
+            var reader = new FileRuleSetReader(basePath);
+
+            // Act
+            var result = await reader.GetRulesForCityAsync("NonExistingCity");
+
+            // Assert
+            result.Should().BeNull();
+        }
+    }
 }
