@@ -17,6 +17,11 @@ namespace AHA.CongestionTax.Application.Queries.Readers
             var filename = $"{city.ToLowerInvariant()}.rules.json";
             var path = Path.Combine(basePath, filename);
 
+            if (!File.Exists(path))
+            {
+                return null;
+            }
+
             var json = await File.ReadAllTextAsync(path);
 
             return JsonSerializer.Deserialize<RuleSetQueryModel>(
