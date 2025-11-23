@@ -1,5 +1,6 @@
 namespace AHA.CongestionTax.Application.Queries.Readers
 {
+    using System.Text.Json;
     using FluentAssertions;
 
     public class FileRuleSetReaderTests
@@ -39,6 +40,25 @@ namespace AHA.CongestionTax.Application.Queries.Readers
 
             // Assert
             result.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetRulesForCityAsync_WhenJsonInvalid_ThrowsJsonException()
+        {
+            // Arrange
+            var basePath = Path.Combine(AppContext.BaseDirectory, "TestData");
+            Directory.CreateDirectory(basePath);
+
+            var invalidJson = "this is not valid json!";
+            File.WriteAllText(Path.Combine(basePath, "malmo.rules.json"), invalidJson);
+
+            var reader = new FileRuleSetReader(basePath);
+
+            // Act
+            var act = async () => await reader.GetRulesForCityAsync("Malmo");
+
+            // Assert
+            await act.Should().ThrowAsync<JsonException>();
         }
     }
 }
