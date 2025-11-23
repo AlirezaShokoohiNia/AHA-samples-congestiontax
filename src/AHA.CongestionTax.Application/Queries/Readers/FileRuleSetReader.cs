@@ -1,16 +1,29 @@
-#pragma warning disable CS9113 // Nullable reference types (NRT) are disabled for this file
 namespace AHA.CongestionTax.Application.Queries.Readers
 {
+    using System.Text.Json;
     using System.Threading.Tasks;
     using AHA.CongestionTax.Application.Queries.RuleSets;
 
     public class FileRuleSetReader(string basePath)
         : IRuleSetReader
     {
-        public Task<RuleSetQueryModel?> GetRulesForCityAsync(string city)
+        private static readonly JsonSerializerOptions _readOptions = new()
         {
-            throw new NotImplementedException();
+            PropertyNameCaseInsensitive = true
+        };
+
+        public async Task<RuleSetQueryModel?> GetRulesForCityAsync(string city)
+        {
+            var filename = $"{city.ToLowerInvariant()}.rules.json";
+            var path = Path.Combine(basePath, filename);
+
+            var json = await File.ReadAllTextAsync(path);
+
+            return JsonSerializer.Deserialize<RuleSetQueryModel>(
+                json,
+                _readOptions
+            );
+
         }
     }
 }
-#pragma warning restore CS9113
