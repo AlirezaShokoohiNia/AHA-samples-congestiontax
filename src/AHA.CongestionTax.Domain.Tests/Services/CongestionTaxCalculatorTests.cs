@@ -67,19 +67,28 @@ namespace AHA.CongestionTax.Domain.Services.timeSlots
         }
 
         [Fact]
-        public void SingleChargeRule_ShouldApplyHighestFeeWithin60Minutes()
+        public void SingleChargeRule_ShouldChargeHighestFeeWithin60MinuteWindow_AcrossSlots()
         {
             //Arrange
             var calc = new CongestionTaxCalculator();
             var vehicle = new Vehicle("ABC123", VehicleType.Car);
             var dayToll = new DayToll(vehicle, "Gothenburg", new DateOnly(2025, 11, 25));
-            dayToll.AddPass(new TimeOnly(8, 0));
-            dayToll.AddPass(new TimeOnly(8, 30)); // within 60 min
+            dayToll.AddPass(new TimeOnly(7, 45)); // 07:00–07:59 => 18
+            dayToll.AddPass(new TimeOnly(8, 10)); // 08:00–08:29 => 13
 
             var timeSlots = new List<TimeSlot>
                     {
-                        new(new TimeOnly(8, 0), new TimeOnly(8, 59), 10),
-                        new(new TimeOnly(8, 30), new TimeOnly(8, 59), 20)
+                    new (new TimeOnly(6, 0), new TimeOnly(6, 29), 8),
+                    new (new TimeOnly(6, 30), new TimeOnly(6, 59), 13),
+                    new (new TimeOnly(7, 0), new TimeOnly(7, 59), 18),
+                    new (new TimeOnly(8, 0), new TimeOnly(8, 29), 13),
+                    new (new TimeOnly(8, 30), new TimeOnly(14, 59), 8),
+                    new (new TimeOnly(15, 0), new TimeOnly(15, 29), 13),
+                    new (new TimeOnly(15, 30), new TimeOnly(16, 59), 18),
+                    new (new TimeOnly(17, 0), new TimeOnly(17, 59), 13),
+                    new (new TimeOnly(18, 0), new TimeOnly(18, 29), 8),
+                    new (new TimeOnly(18, 30), new TimeOnly(23, 59), 0),
+                    new (new TimeOnly(0, 0), new TimeOnly(5, 59), 0),
                     };
 
             //Act
@@ -90,7 +99,7 @@ namespace AHA.CongestionTax.Domain.Services.timeSlots
                 new HashSet<VehicleType>());
 
             //Assert
-            Assert.Equal(20, result.TotalFee); // highest fee wins
+            Assert.Equal(18, result.TotalFee); // highest fee wins
         }
 
     }
