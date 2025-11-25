@@ -27,6 +27,10 @@ namespace AHA.CongestionTax.Domain.Services
             if (IsWeekend(dayToll.Date) || holidays.Contains(dayToll.Date))
                 return new DailyTaxResult(0, []);
 
+            // No passes → zero
+            if (dayToll.Passes.Count == 0)
+                return new DailyTaxResult(0, []);
+
             throw new NotImplementedException();
         }
 
