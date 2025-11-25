@@ -23,7 +23,21 @@ namespace AHA.CongestionTax.Domain.Services
             if (tollFreeVehicles.Contains(dayToll.Vehicle.VehicleType))
                 return new DailyTaxResult(0, []);
 
+            // Weekend or holiday → zero
+            if (IsWeekend(dayToll.Date) || holidays.Contains(dayToll.Date))
+                return new DailyTaxResult(0, []);
+
             throw new NotImplementedException();
         }
+
+        #region Private Methods
+
+        private static bool IsWeekend(DateOnly date)
+        {
+            var day = date.DayOfWeek;
+            return day is DayOfWeek.Saturday or DayOfWeek.Sunday;
+        }
+
+        #endregion
     }
 }
