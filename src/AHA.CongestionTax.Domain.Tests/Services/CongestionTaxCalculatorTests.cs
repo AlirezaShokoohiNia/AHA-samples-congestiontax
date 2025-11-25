@@ -47,5 +47,24 @@ namespace AHA.CongestionTax.Domain.Services.timeSlots
             Assert.Equal(0, result.TotalFee);
         }
 
+        [Fact]
+        public void NoPasses_ShouldReturnZeroFee()
+        {
+            //Arrange
+            var calc = new CongestionTaxCalculator();
+            var vehicle = new Vehicle("ABC123", VehicleType.Car);
+            var dayToll = new DayToll(vehicle, "Gothenburg", new DateOnly(2025, 11, 25));
+
+            //Act
+            var result = calc.CalculateDailyFee(
+                dayToll,
+                [],
+                new HashSet<DateOnly>(),
+                new HashSet<VehicleType>());
+
+            //Assert
+            Assert.Equal(0, result.TotalFee);
+        }
+
     }
 }
