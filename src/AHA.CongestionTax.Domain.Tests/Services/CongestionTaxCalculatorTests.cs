@@ -102,5 +102,48 @@ namespace AHA.CongestionTax.Domain.Services.timeSlots
             Assert.Equal(18, result.TotalFee); // highest fee wins
         }
 
+        [Fact]
+        public void DailyFee_ShouldBeCappedAtMaximum()
+        {
+            // Arrange
+            var calc = new CongestionTaxCalculator();
+            var vehicle = new Vehicle("ABC123", VehicleType.Car);
+            var dayToll = new DayToll(vehicle, "Gothenburg", new DateOnly(2025, 11, 25));
+
+            // Add passes far enough apart to avoid 60-min grouping
+            dayToll.AddPass(new TimeOnly(6, 0));  // 8
+            dayToll.AddPass(new TimeOnly(7, 10)); // 18
+            dayToll.AddPass(new TimeOnly(8, 40)); // 8
+            dayToll.AddPass(new TimeOnly(15, 10)); // 13
+            dayToll.AddPass(new TimeOnly(16, 40)); // 18
+
+            var timeSlots = new List<TimeSlot>
+                    {
+                    new (new TimeOnly(6, 0), new TimeOnly(6, 29), 8),
+                    new (new TimeOnly(6, 30), new TimeOnly(6, 59), 13),
+                    new (new TimeOnly(7, 0), new TimeOnly(7, 59), 18),
+                    new (new TimeOnly(8, 0), new TimeOnly(8, 29), 13),
+                    new (new TimeOnly(8, 30), new TimeOnly(14, 59), 8),
+                    new (new TimeOnly(15, 0), new TimeOnly(15, 29), 13),
+                    new (new TimeOnly(15, 30), new TimeOnly(16, 59), 18),
+                    new (new TimeOnly(17, 0), new TimeOnly(17, 59), 13),
+                    new (new TimeOnly(18, 0), new TimeOnly(18, 29), 8),
+                    new (new TimeOnly(18, 30), new TimeOnly(23, 59), 0),
+                    new (new TimeOnly(0, 0), new TimeOnly(5, 59), 0),
+                    };
+
+            // Act
+            var result = calc.CalculateDailyFee(
+                dayToll,
+                timeSlots,
+                new HashSet<DateOnly>(),
+                new HashSet<VehicleType>(),
+                dailyMaxFee: 60);
+
+            // Assert
+            // Raw sum would be 65, but capped at 60
+            Assert.Equal(60, result.TotalFee);
+        }
+
     }
 }
