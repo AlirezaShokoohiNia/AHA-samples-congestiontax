@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHA.CongestionTax.Applicati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHA.CongestionTax.Domain.Tests", "src\AHA.CongestionTax.Domain.Tests\AHA.CongestionTax.Domain.Tests.csproj", "{588116BE-8ACE-445C-9B4E-41D5EC02E6F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHA.CongestionTax.Infrastructure.Tests", "src\AHA.CongestionTax.Infrastructure.Tests\AHA.CongestionTax.Infrastructure.Tests.csproj", "{03875698-7783-4ECC-A7A1-B8E1DF998A20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,18 @@ Global
 		{588116BE-8ACE-445C-9B4E-41D5EC02E6F7}.Release|x64.Build.0 = Release|Any CPU
 		{588116BE-8ACE-445C-9B4E-41D5EC02E6F7}.Release|x86.ActiveCfg = Release|Any CPU
 		{588116BE-8ACE-445C-9B4E-41D5EC02E6F7}.Release|x86.Build.0 = Release|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Debug|x64.Build.0 = Debug|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Debug|x86.Build.0 = Debug|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Release|x64.ActiveCfg = Release|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Release|x64.Build.0 = Release|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Release|x86.ActiveCfg = Release|Any CPU
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,5 +154,6 @@ Global
 		{D21345A1-C1B7-46A9-A289-8E4C6DEFBCFE} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{9CDC5137-C73A-4FE7-8776-98A5C310BB9F} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{588116BE-8ACE-445C-9B4E-41D5EC02E6F7} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{03875698-7783-4ECC-A7A1-B8E1DF998A20} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal
