@@ -66,9 +66,11 @@ namespace AHA.CongestionTax.Domain.Services
 
             var total = fees.Sum();
 
-            return new DailyTaxResult(total, fees);
+            // Apply daily max rule
+            if (total > dailyMaxFee)
+                total = dailyMaxFee;
 
-            throw new NotImplementedException();
+            return new DailyTaxResult(total, fees);
         }
 
         #region Private Methods
