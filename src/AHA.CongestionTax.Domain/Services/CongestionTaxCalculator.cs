@@ -31,6 +31,43 @@ namespace AHA.CongestionTax.Domain.Services
             if (dayToll.Passes.Count == 0)
                 return new DailyTaxResult(0, []);
 
+            var ordered = dayToll.Passes
+                           .OrderBy(p => p.Time)
+                           .ToList();
+
+            var fees = new List<int>();
+            var currentWindowStart = ordered.First().Time;
+            var maxFeeInWindow = GetFee(ordered.First().Time, timeSlots);
+
+            fees.Add(maxFeeInWindow);
+
+            for (int i = 1; i < ordered.Count; i++)
+            {
+                var thisPass = ordered[i];
+                var fee = GetFee(thisPass.Time, timeSlots);
+
+                if (IsWithin60Min(currentWindowStart, thisPass.Time))
+                {
+                    // Apply single charge rule: highest fee wins
+                    if (fee > maxFeeInWindow)
+                    {
+                        maxFeeInWindow = fee;
+                        fees[^1] = fee;// replace last with higher fee
+                    }
+                }
+                else
+                {
+                    // New window
+                    currentWindowStart = thisPass.Time;
+                    maxFeeInWindow = fee;
+                    fees.Add(fee);
+                }
+            }
+
+            var total = fees.Sum();
+
+            return new DailyTaxResult(total, fees);
+
             throw new NotImplementedException();
         }
 
@@ -41,6 +78,19 @@ namespace AHA.CongestionTax.Domain.Services
             var day = date.DayOfWeek;
             return day is DayOfWeek.Saturday or DayOfWeek.Sunday;
         }
+
+        private static int GetFee(TimeOnly time, IReadOnlyCollection<TimeSlot> slots)
+        {
+            foreach (var s in slots)
+                if (s.Contains(time))
+                    return s.Fee;
+
+            return 0; // Default if unmatched
+        }
+
+        private static bool IsWithin60Min(TimeOnly start, TimeOnly next) =>
+            next.ToTimeSpan() - start.ToTimeSpan() <= TimeSpan.FromMinutes(60);
+
 
         #endregion
     }
