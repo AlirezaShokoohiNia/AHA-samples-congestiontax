@@ -19,6 +19,10 @@ namespace AHA.CongestionTax.Domain.Services
             IReadOnlySet<VehicleType> tollFreeVehicles,
             int dailyMaxFee = 60)
         {
+            // Free vehicle → zero
+            if (tollFreeVehicles.Contains(dayToll.Vehicle.VehicleType))
+                return new DailyTaxResult(0, []);
+
             throw new NotImplementedException();
         }
     }
