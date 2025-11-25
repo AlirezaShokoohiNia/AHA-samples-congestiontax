@@ -1,5 +1,7 @@
 namespace AHA.CongestionTax.Domain.VehicleAgg
 {
+    using AHA.CongestionTax.Domain.ValueObjects;
+
     /// <summary>
     /// Represents a registered vehicle in the congestion tax domain.
     /// </summary>

@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Domain.VehicleAgg
+namespace AHA.CongestionTax.Domain.ValueObjects
 {
     /// <summary>
     /// Represents the supported vehicle categories for congestion tax evaluation.
