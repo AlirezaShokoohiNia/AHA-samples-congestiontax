@@ -29,7 +29,13 @@ trim_trailing_whitespace = false
 # C# Shared formatting rules
 ###########################################
 [*.cs]
-
+dotnet_remove_unnecessary_usings = true : suggestion
+dotnet_style_namespace_match_folder = false
+dotnet_style_namespace_usings = inside:error  ## prefer usings inside namespaces
+csharp_using_directive_placement = inside_namespace:warning 
+dotnet_diagnostic.IDE0007.severity = none # Allow explicit type instead of var
+dotnet_diagnostic.IDE0008.severity = none # Allow explicit type instead of var 
+csharp_prefer_braces = false
 indent_size = 4
 
 ########## Basic indentation ##########
@@ -40,13 +46,12 @@ csharp_indent_switch_labels = true
 
 ########## Using Directives ##########
 # Sort System.* first
-dotnet_sort_system_directives_first = true
-
+# dotnet_sort_system_directives_first = true
 # Remove unused usings automatically
 dotnet_remove_unnecessary_usings = true : suggestion
 
 ########## Expression Preferences ##########
-dotnet_style_namespace_usings = inside:error  ## prefer usings inside namespaces
+dotnet_style_namespace_usings = inside_namespace:error  ## prefer usings inside namespaces
 dotnet_style_prefer_simplified_boolean_expressions = true : suggestion
 dotnet_style_prefer_simplified_interpolation = true : suggestion
 dotnet_style_null_propagation = true : suggestion
@@ -80,7 +85,7 @@ dotnet_naming_style.camel_case_underscore.required_prefix = _
 #############################################################################
 # 1️⃣ Minimal API Project — AHA.*.Api
 #############################################################################
-[**/AHA.*.Api/**.cs]
+[src/*.Api/**/.cs]
 
 # Prefer var for concise minimal API handlers
 csharp_style_var_for_built_in_types = true : suggestion
@@ -97,16 +102,16 @@ csharp_style_expression_bodied_local_functions = when_on_single_line : suggestio
 # 2️⃣ Class Libraries — Application, Domain, Infrastructure, Contracts, Seedwork
 #############################################################################
 # Matched exactly to your real folder names
-[**/AHA.*.Application/**.cs]
-[**/AHA.*.Domain/**.cs]
-[**/AHA.*.Infrastructure/**.cs]
-[**/AHA.*.Contracts/**.cs]
-[**/AHA.*.Seedwork/**.cs]
+[src/*.Application/**/.cs]
+[src/*.Domain/**/.cs]
+[src/*.Infrastructure/**/.cs]
+[src/*.Contracts/**/.cs]
+[src/*.Seedwork/**/.cs]
 
 # Prefer explicit types for API clarity
-csharp_style_var_for_built_in_types = false : suggestion
-csharp_style_var_when_type_is_apparent = false : suggestion
-csharp_style_var_elsewhere = false : suggestion
+csharp_style_var_for_built_in_types = true : suggestion
+csharp_style_var_when_type_is_apparent = true : suggestion
+csharp_style_var_elsewhere = true : suggestion
 
 # More conservative expression-bodied usage
 csharp_style_expression_bodied_methods = false : suggestion
@@ -118,7 +123,10 @@ csharp_style_expression_bodied_local_functions = false : suggestion
 # 3️⃣ Test Projects — Under /src/Tests/
 #############################################################################
 # Matches your real test project folders
-[**/Tests/**.cs]
+[src/*.Tests/**/*.cs]
+
+dotnet_diagnostic.CA1707.severity = none  # Allow underscores in test names
+dotnet_diagnostic.IDE0058.severity = none # Allow unused expressions in tests
 
 # Tests should be flexible & readable → var preferred
 csharp_style_var_for_built_in_types = true : suggestion
@@ -130,3 +138,10 @@ csharp_style_expression_bodied_methods = false : suggestion
 
 # But allow local helpers to be expression-bodied
 csharp_style_expression_bodied_local_functions = when_on_single_line : suggestion
+
+
+[bin/**]
+generated_code = true
+
+[obj/**]
+generated_code = true
