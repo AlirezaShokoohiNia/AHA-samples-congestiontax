@@ -1,6 +1,6 @@
-namespace AHA.CongestionTax.Application.Queries.RuleSets
+namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets
 {
-    public sealed class VehicleFreeRuleQueryModel
+    public sealed class VehicleFreeRuleReadModel
     {
         /// <summary>
         /// Example: "Emergency", "Motorcycle", "Diplomat", "Foreign", etc.

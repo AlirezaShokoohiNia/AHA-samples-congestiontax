@@ -1,6 +1,7 @@
-namespace AHA.CongestionTax.Application.Queries.RuleSets
+namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets
 {
-    public sealed class RuleSetQueryModel
+
+    public sealed class RuleSetReadModel
     {
         /// <summary>
         /// City identifier or name
@@ -10,16 +11,16 @@ namespace AHA.CongestionTax.Application.Queries.RuleSets
         /// <summary>
         /// All time slot rules for the city
         /// </summary>
-        public List<TimeSlotRuleQueryModel> TimeSlots { get; init; } = new();
+        public List<TimeSlotRuleReadModel> TimeSlots { get; init; } = new();
 
         /// <summary>
         /// All holiday rules for the city
         /// </summary>
-        public List<HolidayRuleQueryModel> Holidays { get; init; } = new();
+        public List<HolidayRuleReadModel> Holidays { get; init; } = new();
 
         /// <summary>
         /// Vehicles that are toll-free in this city
         /// </summary>
-        public List<VehicleFreeRuleQueryModel> TollFreeVehicles { get; init; } = new();
+        public List<VehicleFreeRuleReadModel> TollFreeVehicles { get; init; } = new();
     }
 }

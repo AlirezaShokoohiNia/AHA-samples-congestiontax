@@ -1,6 +1,6 @@
-namespace AHA.CongestionTax.Application.Queries.RuleSets
+namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets
 {
-    public sealed class TimeSlotRuleQueryModel
+    public sealed class TimeSlotRuleReadModel
     {
         /// <summary>
         /// Start hour of the time slot (0–23)

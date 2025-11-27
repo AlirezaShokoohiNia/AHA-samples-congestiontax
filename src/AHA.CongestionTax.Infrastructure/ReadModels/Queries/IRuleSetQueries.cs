@@ -1,12 +1,12 @@
-namespace AHA.CongestionTax.Application.Queries.Readers
+namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries
 {
-    using AHA.CongestionTax.Application.Queries.RuleSets;
+    using AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets;
     using System.Threading.Tasks;
 
-    public interface IRuleSetReader
+    public interface IRuleSetQueries
     {
 
-        Task<RuleSetQueryModel?> GetRulesForCityAsync(string city);
+        Task<RuleSetReadModel?> GetRulesForCityAsync(string city);
     }
 
 }

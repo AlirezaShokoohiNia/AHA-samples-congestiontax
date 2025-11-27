@@ -1,9 +1,13 @@
-namespace AHA.CongestionTax.Application.Queries.Readers
+namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers.Tests
 {
+    using System;
+    using System.IO;
     using System.Text.Json;
+    using System.Threading.Tasks;
+    using Xunit;
     using FluentAssertions;
 
-    public class FileRuleSetReaderTests
+    public class RuleSetFileQueryProviderTests
     {
         [Fact]
         public async Task GetRulesForCityAsync_WhenFileExists_ReturnsRuleSet()
@@ -16,7 +20,7 @@ namespace AHA.CongestionTax.Application.Queries.Readers
 
             File.WriteAllText(Path.Combine(basePath, "gothenburg.rules.json"), json);
 
-            var reader = new FileRuleSetReader(basePath);
+            var reader = new RuleSetFileQueryProvider(basePath);
 
             // Act
             var result = await reader.GetRulesForCityAsync("Gothenburg");
@@ -33,7 +37,7 @@ namespace AHA.CongestionTax.Application.Queries.Readers
             var basePath = Path.Combine(AppContext.BaseDirectory, "TestData");
             Directory.CreateDirectory(basePath);
 
-            var reader = new FileRuleSetReader(basePath);
+            var reader = new RuleSetFileQueryProvider(basePath);
 
             // Act
             var result = await reader.GetRulesForCityAsync("NonExistingCity");
@@ -52,7 +56,7 @@ namespace AHA.CongestionTax.Application.Queries.Readers
             var invalidJson = "this is not valid json!";
             File.WriteAllText(Path.Combine(basePath, "malmo.rules.json"), invalidJson);
 
-            var reader = new FileRuleSetReader(basePath);
+            var reader = new RuleSetFileQueryProvider(basePath);
 
             // Act
             var act = async () => await reader.GetRulesForCityAsync("Malmo");

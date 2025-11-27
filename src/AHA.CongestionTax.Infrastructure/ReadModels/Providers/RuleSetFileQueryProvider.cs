@@ -1,18 +1,19 @@
-namespace AHA.CongestionTax.Application.Queries.Readers
+namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers
 {
     using System.Text.Json;
     using System.Threading.Tasks;
-    using AHA.CongestionTax.Application.Queries.RuleSets;
+    using AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries;
+    using AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets;
 
-    public class FileRuleSetReader(string basePath)
-        : IRuleSetReader
+    public class RuleSetFileQueryProvider(string basePath)
+        : IRuleSetQueries
     {
         private static readonly JsonSerializerOptions _readOptions = new()
         {
             PropertyNameCaseInsensitive = true
         };
 
-        public async Task<RuleSetQueryModel?> GetRulesForCityAsync(string city)
+        public async Task<RuleSetReadModel?> GetRulesForCityAsync(string city)
         {
             var filename = $"{city.ToLowerInvariant()}.rules.json";
             var path = Path.Combine(basePath, filename);
@@ -24,7 +25,7 @@ namespace AHA.CongestionTax.Application.Queries.Readers
 
             var json = await File.ReadAllTextAsync(path);
 
-            return JsonSerializer.Deserialize<RuleSetQueryModel>(
+            return JsonSerializer.Deserialize<RuleSetReadModel>(
                 json,
                 _readOptions
             );

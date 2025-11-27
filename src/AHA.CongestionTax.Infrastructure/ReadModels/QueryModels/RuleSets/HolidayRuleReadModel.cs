@@ -1,6 +1,6 @@
-namespace AHA.CongestionTax.Application.Queries.RuleSets
+namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets
 {
-    public sealed class HolidayRuleQueryModel
+    public sealed class HolidayRuleReadModel
     {
         /// <summary>
         /// Date of holiday
