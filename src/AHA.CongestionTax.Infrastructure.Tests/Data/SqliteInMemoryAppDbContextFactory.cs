@@ -3,11 +3,11 @@ namespace AHA.CongestionTax.Infrastructure.Data.Tests
     using Microsoft.Data.Sqlite;
     using Microsoft.EntityFrameworkCore;
 
-    public static class SqliteInMemoryAppDbContextFactory
+    public sealed class SqliteInMemoryAppDbContextFactory : IDisposable
     {
-        private static readonly SqliteConnection _connection;
+        private readonly SqliteConnection _connection;
 
-        static SqliteInMemoryAppDbContextFactory()
+        private SqliteInMemoryAppDbContextFactory()
         {
             // Shared in-memory SQLite database
             _connection = new SqliteConnection("DataSource=:memory:;Cache=Shared");
@@ -16,8 +16,9 @@ namespace AHA.CongestionTax.Infrastructure.Data.Tests
 
         public static AppDbContext CreateContext()
         {
+            var factory = new SqliteInMemoryAppDbContextFactory();
             var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseSqlite(_connection)
+                .UseSqlite(factory._connection)
                 .EnableDetailedErrors()
                 .EnableSensitiveDataLogging()
                 .Options;
@@ -30,10 +31,11 @@ namespace AHA.CongestionTax.Infrastructure.Data.Tests
             return context;
         }
 
-        public static void Dispose()
+        public void Dispose()
         {
             _connection.Close();
             _connection.Dispose();
+
         }
     }
 }
