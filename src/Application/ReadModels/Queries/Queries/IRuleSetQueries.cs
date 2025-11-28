@@ -1,6 +1,6 @@
-namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries
+namespace AHA.CongestionTax.Application.ReadModels.Queries
 {
-    using AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets;
+    using AHA.CongestionTax.Application.ReadModels.Queries.RuleSets;
     using System.Threading.Tasks;
 
     public interface IRuleSetQueries

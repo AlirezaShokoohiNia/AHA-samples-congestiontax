@@ -2,8 +2,8 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers
 {
     using System.Text.Json;
     using System.Threading.Tasks;
-    using AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries;
-    using AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets;
+    using AHA.CongestionTax.Application.ReadModels.Queries;
+    using AHA.CongestionTax.Application.ReadModels.Queries.RuleSets;
 
     public class RuleSetFileQueryProvider(string basePath)
         : IRuleSetQueries

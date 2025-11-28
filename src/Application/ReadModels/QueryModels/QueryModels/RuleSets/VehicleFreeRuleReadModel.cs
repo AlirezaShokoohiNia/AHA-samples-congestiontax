@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Queries.RuleSets
+namespace AHA.CongestionTax.Application.ReadModels.Queries.RuleSets
 {
     public sealed class VehicleFreeRuleReadModel
     {
