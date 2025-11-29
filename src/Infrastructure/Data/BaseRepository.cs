@@ -1,6 +1,9 @@
 namespace AHA.CongestionTax.Infrastructure.Data
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading;
+    using System.Threading.Tasks;
     using AHA.CongestionTax.Domain;
     using AHA.CongestionTax.Domain.Abstractions;
     using Microsoft.EntityFrameworkCore;
@@ -20,26 +23,83 @@ namespace AHA.CongestionTax.Infrastructure.Data
 
         public IUnitOfWork UnitOfWork => _dbContext;
 
-        public async ValueTask AddAsync(TAggRoot aggregate, CancellationToken cancellationToken = default) =>
-                    await _dbContext.Set<TAggRoot>().AddAsync(aggregate, cancellationToken);
+        #region Read Operations
 
-
-        public async Task<List<TAggRoot>> FindAllAsync(CancellationToken cancellationToken = default) =>
-                    await _dbContext.Set<TAggRoot>().ToListAsync(cancellationToken);
-
-        public async ValueTask<TAggRoot?> FindByIdAsync(int id, CancellationToken cancellationToken = default) =>
-                    await _dbContext.Set<TAggRoot>().FindAsync([id], cancellationToken);
-
-        public ValueTask ModifyAsync(TAggRoot aggregate, CancellationToken cancellationToken = default)
+        public async ValueTask<Result<TAggRoot>> FindByIdAsync(int id, CancellationToken cancellationToken = default)
         {
-            _dbContext.Set<TAggRoot>().Update(aggregate);
-            return ValueTask.CompletedTask;
+            try
+            {
+                var entity = await _dbContext.Set<TAggRoot>().FindAsync([id], cancellationToken);
+                return entity is null
+                    ? Result.Failure<TAggRoot>($"Entity of type {typeof(TAggRoot).Name} with id {id} not found.")
+                    : Result.Success(entity);
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<TAggRoot>(ex.Message);
+            }
         }
 
-        public async ValueTask RemoveAsync(int aggregateRootId, CancellationToken cancellationToken = default)
+        public async Task<Result<List<TAggRoot>>> FindAllAsync(CancellationToken cancellationToken = default)
         {
-            var entity = await FindByIdAsync(aggregateRootId, cancellationToken);
-            if (entity is not null) _dbContext.Set<TAggRoot>().Remove(entity);
+            try
+            {
+                var list = await _dbContext.Set<TAggRoot>().ToListAsync(cancellationToken);
+                return Result.Success(list);
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<List<TAggRoot>>(ex.Message);
+            }
         }
+
+        #endregion
+
+        #region Write Operations
+
+        public async ValueTask<Result> AddAsync(TAggRoot aggregate, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _ = await _dbContext.Set<TAggRoot>().AddAsync(aggregate, cancellationToken);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(ex.Message);
+            }
+        }
+
+        public ValueTask<Result> ModifyAsync(TAggRoot aggregate, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                _ = _dbContext.Set<TAggRoot>().Update(aggregate);
+                return ValueTask.FromResult(Result.Success());
+            }
+            catch (Exception ex)
+            {
+                return ValueTask.FromResult(Result.Failure(ex.Message));
+            }
+        }
+
+        public async ValueTask<Result> RemoveAsync(int aggregateRootId, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var entityResult = await FindByIdAsync(aggregateRootId, cancellationToken);
+                if (!entityResult.IsSuccess || entityResult.Value is null)
+                    return Result.Failure($"Entity of type {typeof(TAggRoot).Name} with id {aggregateRootId} not found.");
+
+                _ = _dbContext.Set<TAggRoot>().Remove(entityResult.Value);
+                return Result.Success();
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure(ex.Message);
+            }
+        }
+
+        #endregion
     }
 }
