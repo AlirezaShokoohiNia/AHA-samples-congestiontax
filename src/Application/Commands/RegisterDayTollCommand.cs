@@ -1,5 +1,6 @@
 namespace AHA.CongestionTax.Application.Commands
 {
+    using AHA.CongestionTax.Application.Abstractions;
     using AHA.CongestionTax.Application.Dtos;
 
     /// <summary>
@@ -9,5 +10,5 @@ namespace AHA.CongestionTax.Application.Commands
         string LicensePlate,
         DateOnly Date,
         IReadOnlyCollection<PassDto> Passes
-    );
+    ) : ICommand;
 }
