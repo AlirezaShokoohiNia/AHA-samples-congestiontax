@@ -2,7 +2,6 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers.Tests
 {
     using System;
     using System.IO;
-    using System.Text.Json;
     using System.Threading.Tasks;
     using Xunit;
     using FluentAssertions;
@@ -17,7 +16,6 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers.Tests
             Directory.CreateDirectory(basePath);
 
             var json = /*lang=json,strict*/ """{ "City": "Gothenburg", "TimeSlots": [], "Holidays": [], "TollFreeVehicles": [] }""";
-
             File.WriteAllText(Path.Combine(basePath, "gothenburg.rules.json"), json);
 
             var reader = new RuleSetFileQueryProvider(basePath);
@@ -26,12 +24,12 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers.Tests
             var result = await reader.GetRulesForCityAsync("Gothenburg");
 
             // Assert
-            result.Should().NotBeNull();
-            result!.City.Should().Be("Gothenburg");
+            result.IsSuccess.Should().BeTrue(result.Error);
+            result.Value!.City.Should().Be("Gothenburg");
         }
 
         [Fact]
-        public async Task GetRulesForCityAsync_WhenKeyMissing_ReturnsNull()
+        public async Task GetRulesForCityAsync_WhenFileMissing_ReturnsFailure()
         {
             // Arrange
             var basePath = Path.Combine(AppContext.BaseDirectory, "TestData");
@@ -43,11 +41,12 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers.Tests
             var result = await reader.GetRulesForCityAsync("NonExistingCity");
 
             // Assert
-            result.Should().BeNull();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Contain("not found");
         }
 
         [Fact]
-        public async Task GetRulesForCityAsync_WhenJsonInvalid_ThrowsJsonException()
+        public async Task GetRulesForCityAsync_WhenJsonInvalid_ReturnsFailure()
         {
             // Arrange
             var basePath = Path.Combine(AppContext.BaseDirectory, "TestData");
@@ -59,10 +58,11 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers.Tests
             var reader = new RuleSetFileQueryProvider(basePath);
 
             // Act
-            var act = async () => await reader.GetRulesForCityAsync("Malmo");
+            var result = await reader.GetRulesForCityAsync("Malmo");
 
             // Assert
-            await act.Should().ThrowAsync<JsonException>();
+            result.IsSuccess.Should().BeFalse();
+            result.Error.Should().Contain("Invalid JSON format");
         }
     }
 }
