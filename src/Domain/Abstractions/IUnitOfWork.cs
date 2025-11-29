@@ -1,5 +1,6 @@
 namespace AHA.CongestionTax.Domain.Abstractions
 {
+
     /// <summary>
     /// Represents the Unit of Work pattern, coordinating changes across repositories.
     /// </summary>
@@ -14,20 +15,19 @@ namespace AHA.CongestionTax.Domain.Abstractions
         /// </summary>
         /// <param name="cancellationToken">Token for cancelling the operation.</param>
         /// <returns>
-        /// The number of state entries written to the database.
+        /// A <see cref="Result{T}"/> containing the number of state entries written to the database
+        /// if successful, or a failure result with an error message if persistence fails.
         /// </returns>
-        /// <exception cref="Exception">
-        /// Thrown if persistence fails.  
-        /// The transaction must rollback in this case.
-        /// </exception>
-        Task<int> CommitAsync(CancellationToken cancellationToken = default);
+        Task<Result<int>> CommitAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronously rolls back all tracked changes.
         /// </summary>
-        /// <remarks>
-        /// Rollback behavior depends on the underlying ORM/transaction provider.
-        /// </remarks>
-        Task RollbackAsync(CancellationToken cancellationToken = default);
+        /// <param name="cancellationToken">Token for cancelling the operation.</param>
+        /// <returns>
+        /// A <see cref="Result"/> indicating success or failure of the rollback operation.
+        /// </returns>
+        Task<Result> RollbackAsync(CancellationToken cancellationToken = default);
     }
 }
+

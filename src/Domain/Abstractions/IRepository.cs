@@ -1,5 +1,6 @@
 namespace AHA.CongestionTax.Domain.Abstractions
 {
+
     /// <summary>
     /// Base interface for repository implementations that manage persistence
     /// for a specific aggregate root.
@@ -21,9 +22,10 @@ namespace AHA.CongestionTax.Domain.Abstractions
         /// <param name="id">Identity of the aggregate.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>
-        /// The aggregate instance, or <see langword="null"/> if not found.
+        /// A <see cref="Result{T}"/> containing the aggregate instance if found,
+        /// or a failure result with an error message if not found.
         /// </returns>
-        ValueTask<TAggRoot?> FindByIdAsync(int id,
+        ValueTask<Result<TAggRoot>> FindByIdAsync(int id,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -31,9 +33,10 @@ namespace AHA.CongestionTax.Domain.Abstractions
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>
-        /// A list of aggregate instances.
+        /// A <see cref="Result{T}"/> containing the list of aggregate instances,
+        /// or a failure result if retrieval fails.
         /// </returns>
-        Task<List<TAggRoot>> FindAllAsync(
+        Task<Result<List<TAggRoot>>> FindAllAsync(
             CancellationToken cancellationToken = default);
 
         #endregion
@@ -43,19 +46,34 @@ namespace AHA.CongestionTax.Domain.Abstractions
         /// <summary>
         /// Adds a new aggregate to the repository.
         /// </summary>
-        ValueTask AddAsync(TAggRoot aggregate,
+        /// <param name="aggregate">Aggregate root instance to add.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>
+        /// A <see cref="Result"/> indicating success or failure of the operation.
+        /// </returns>
+        ValueTask<Result> AddAsync(TAggRoot aggregate,
             CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Removes an aggregate by its identifier.
         /// </summary>
-        ValueTask RemoveAsync(int aggregateRootId,
+        /// <param name="aggregateRootId">Identifier of the aggregate root.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>
+        /// A <see cref="Result"/> indicating success or failure of the operation.
+        /// </returns>
+        ValueTask<Result> RemoveAsync(int aggregateRootId,
             CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Marks an aggregate as modified within the current Unit of Work.
         /// </summary>
-        ValueTask ModifyAsync(TAggRoot aggregate,
+        /// <param name="aggregate">Aggregate root instance to modify.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>
+        /// A <see cref="Result"/> indicating success or failure of the operation.
+        /// </returns>
+        ValueTask<Result> ModifyAsync(TAggRoot aggregate,
             CancellationToken cancellationToken = default);
 
         #endregion

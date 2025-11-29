@@ -2,6 +2,8 @@ namespace AHA.CongestionTax.Domain.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using AHA.CongestionTax.Domain.Abstractions;
     using AHA.CongestionTax.Domain.DayTollAgg;
     using AHA.CongestionTax.Domain.ValueObjects;
 
@@ -13,23 +15,45 @@ namespace AHA.CongestionTax.Domain.Services
         /// <summary>
         /// Calculates the daily congestion tax according to domain rules.
         /// </summary>
-        public DailyTaxResult CalculateDailyFee(DayToll dayToll,
+        /// <param name="dayToll">Day toll aggregate containing vehicle passages.</param>
+        /// <param name="timeSlots">Collection of taxable time slots.</param>
+        /// <param name="holidays">Set of holiday dates exempt from tolls.</param>
+        /// <param name="tollFreeVehicles">Set of vehicle types exempt from tolls.</param>
+        /// <param name="dailyMaxFee">Maximum fee charged per day.</param>
+        /// <returns>
+        /// A <see cref="Result{T}"/> containing the <see cref="DailyTaxResult"/> if calculation succeeds,
+        /// or a failure result with an error message if input is invalid.
+        /// </returns>
+        public Result<DailyTaxResult> CalculateDailyFee(
+            DayToll dayToll,
             IReadOnlyCollection<TimeSlot> timeSlots,
             IReadOnlySet<DateOnly> holidays,
             IReadOnlySet<VehicleType> tollFreeVehicles,
             int dailyMaxFee = 60)
         {
+            if (dayToll is null)
+                return Result.Failure<DailyTaxResult>("DayToll cannot be null.");
+
+            if (timeSlots is null)
+                return Result.Failure<DailyTaxResult>("Time slots cannot be null.");
+
+            if (holidays is null)
+                return Result.Failure<DailyTaxResult>("Holiday set cannot be null.");
+
+            if (tollFreeVehicles is null)
+                return Result.Failure<DailyTaxResult>("Toll-free vehicles set cannot be null.");
+
             // Free vehicle → zero
             if (tollFreeVehicles.Contains(dayToll.Vehicle.VehicleType))
-                return new DailyTaxResult(0, []);
+                return Result.Success(new DailyTaxResult(0, new List<int>()));
 
             // Weekend or holiday → zero
             if (IsWeekend(dayToll.Date) || holidays.Contains(dayToll.Date))
-                return new DailyTaxResult(0, []);
+                return Result.Success(new DailyTaxResult(0, new List<int>()));
 
             // No passes → zero
             if (dayToll.Passes.Count == 0)
-                return new DailyTaxResult(0, []);
+                return Result.Success(new DailyTaxResult(0, new List<int>()));
 
             var ordered = dayToll.Passes
                            .OrderBy(p => p.Time)
@@ -52,7 +76,7 @@ namespace AHA.CongestionTax.Domain.Services
                     if (fee > maxFeeInWindow)
                     {
                         maxFeeInWindow = fee;
-                        fees[^1] = fee;// replace last with higher fee
+                        fees[^1] = fee; // replace last with higher fee
                     }
                 }
                 else
@@ -70,7 +94,7 @@ namespace AHA.CongestionTax.Domain.Services
             if (total > dailyMaxFee)
                 total = dailyMaxFee;
 
-            return new DailyTaxResult(total, fees);
+            return Result.Success(new DailyTaxResult(total, fees));
         }
 
         #region Private Methods
@@ -92,7 +116,6 @@ namespace AHA.CongestionTax.Domain.Services
 
         private static bool IsWithin60Min(TimeOnly start, TimeOnly next) =>
             next.ToTimeSpan() - start.ToTimeSpan() <= TimeSpan.FromMinutes(60);
-
 
         #endregion
     }
