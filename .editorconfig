@@ -33,6 +33,7 @@ dotnet_remove_unnecessary_usings = true : suggestion
 dotnet_style_namespace_match_folder = false
 dotnet_style_namespace_usings = inside:error  ## prefer usings inside namespaces
 csharp_using_directive_placement = inside_namespace:warning 
+csharp_style_expression_bodied_methods = when_on_single_line
 dotnet_diagnostic.IDE0007.severity = none # Allow explicit type instead of var
 dotnet_diagnostic.IDE0008.severity = none # Allow explicit type instead of var 
 csharp_prefer_braces = false
