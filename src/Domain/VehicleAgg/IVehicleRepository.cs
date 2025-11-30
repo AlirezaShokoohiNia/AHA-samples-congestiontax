@@ -19,5 +19,15 @@ namespace AHA.CongestionTax.Domain.VehicleAgg
         /// </returns>
         Task<Result<bool>> ExistsByPlateAsync(string licensePlate, CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Asynchronously get a vehicle with the given license plate.
+        /// </summary>
+        /// <param name="licensePlate">The license plate to get.</param>
+        /// <param name="cancellationToken">Token to cancel the operation.</param>
+        /// <returns>
+        /// A <see cref="Result{T}"/> containing the vehicle instacnce if found,
+        /// or a failure result with an error message if not found.
+        /// </returns>
+        Task<Result<Vehicle>> GetByPlateAsync(string licensePlate, CancellationToken cancellationToken = default);
     }
 }

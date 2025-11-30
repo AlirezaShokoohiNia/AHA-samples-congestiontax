@@ -27,5 +27,24 @@ namespace AHA.CongestionTax.Infrastructure.Data.Repositories
                 return Result.Failure<bool>($"Failed to check existence of vehicle with plate '{licensePlate}': {ex.Message}");
             }
         }
+
+        public async Task<Result<Vehicle>> GetByPlateAsync(
+            string licensePlate,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var vehicle = await _dbContext.Vehicles
+                    .FirstOrDefaultAsync(v => v.LicensePlate == licensePlate, cancellationToken);
+                return vehicle is null
+                    ? Result.Failure<Vehicle>($"Vehicle with plate {licensePlate} not found.")
+                    : Result.Success(vehicle);
+            }
+            catch (Exception ex)
+            {
+                return Result.Failure<Vehicle>($"Failed to get vehicle with plate '{licensePlate}': {ex.Message}");
+            }
+
+        }
     }
 }
