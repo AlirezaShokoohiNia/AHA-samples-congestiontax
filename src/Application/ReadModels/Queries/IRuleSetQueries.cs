@@ -14,9 +14,9 @@ namespace AHA.CongestionTax.Application.ReadModels.Queries
         /// </summary>
         /// <param name="city">City name to query rules for.</param>
         /// <returns>
-        /// A <see cref="QueryResult{T}"/> containing the <see cref="RuleSetReadModel"/> if found,
+        /// A <see cref="ReadModelsQueryResult{T}"/> containing the <see cref="RuleSetReadModel"/> if found,
         /// or a failure result with an error message if not found or query fails.
         /// </returns>
-        Task<QueryResult<RuleSetReadModel>> GetRulesForCityAsync(string city);
+        Task<ReadModelsQueryResult<RuleSetReadModel>> GetRulesForCityAsync(string city);
     }
 }

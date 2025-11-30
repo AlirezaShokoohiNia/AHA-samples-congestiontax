@@ -18,7 +18,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers
             PropertyNameCaseInsensitive = true
         };
 
-        public async Task<QueryResult<RuleSetReadModel>> GetRulesForCityAsync(string city)
+        public async Task<ReadModelsQueryResult<RuleSetReadModel>> GetRulesForCityAsync(string city)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers
 
                 if (!File.Exists(path))
                 {
-                    return QueryResult.Failure<RuleSetReadModel>(
+                    return ReadModelsQueryResult.Failure<RuleSetReadModel>(
                         $"Rule set file not found for city '{city}'.");
                 }
 
@@ -36,20 +36,20 @@ namespace AHA.CongestionTax.Infrastructure.Data.ReadModels.Providers
 
                 if (model is null)
                 {
-                    return QueryResult.Failure<RuleSetReadModel>(
+                    return ReadModelsQueryResult.Failure<RuleSetReadModel>(
                         $"Failed to deserialize rule set for city '{city}'.");
                 }
 
-                return QueryResult<RuleSetReadModel>.Success(model);
+                return ReadModelsQueryResult.Success(model);
             }
             catch (JsonException jex)
             {
-                return QueryResult.Failure<RuleSetReadModel>(
+                return ReadModelsQueryResult.Failure<RuleSetReadModel>(
                     $"Invalid JSON format for city '{city}': {jex.Message}");
             }
             catch (Exception ex)
             {
-                return QueryResult.Failure<RuleSetReadModel>(
+                return ReadModelsQueryResult.Failure<RuleSetReadModel>(
                     $"Unexpected error reading rule set for city '{city}': {ex.Message}");
             }
         }
