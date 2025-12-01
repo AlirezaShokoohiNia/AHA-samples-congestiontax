@@ -3,6 +3,7 @@ namespace AHA.CongestionTax.Application.Commands
     using System.Threading;
     using System.Threading.Tasks;
     using AHA.CongestionTax.Application.Abstractions;
+    using AHA.CongestionTax.Application.Mappers;
     using AHA.CongestionTax.Application.ReadModels.Queries;
     using AHA.CongestionTax.Domain.DayTollAgg;
     using AHA.CongestionTax.Domain.Services;
@@ -27,13 +28,59 @@ namespace AHA.CongestionTax.Application.Commands
             if (vehicleResult.Value is null)
                 return CommandResult.Failure<int>($"Vehicle with plate {command.LicensePlate} not found.");
 
-            _ = dayTollRepo;
-            _ = ruleSetQueries;
-            _ = taxCalculator;
+            var vehicle = vehicleResult.Value;
+            var date = DateOnly.FromDateTime(command.Timestamp);
+            var time = TimeOnly.FromDateTime(command.Timestamp);
 
-            // For now, stop here. Later steps will handle DayToll, rulesets, fee calculation, etc.
-            return CommandResult.Failure<int>("Handler not fully implemented yet.");
+            // Step 2: Get DayToll aggregate
+            var dayTollResult = await dayTollRepo.GetByVehicleAndCityAndDateAsync(vehicle.Id, command.City, date, cancellationToken);
 
+            DayToll dayToll;
+            if (!dayTollResult.IsSuccess || dayTollResult.Value is null)
+            {
+                // Create new DayToll if not found
+                dayToll = new DayToll(vehicle, command.City, date);
+                var addResult = await dayTollRepo.AddAsync(dayToll, cancellationToken);
+                if (!addResult.IsSuccess)
+                    return CommandResult.Failure<int>(addResult.Error!);
+            }
+            else
+            {
+                dayToll = dayTollResult.Value;
+            }
+
+            // Step 3: Add pass
+            dayToll.AddPass(time);
+
+            // Step 4: Get ruleset
+            var rulesResult = await ruleSetQueries.GetRulesForCityAsync(command.City);
+            if (!rulesResult.IsSuccess || rulesResult.Value is null)
+                return CommandResult.Failure<int>(rulesResult.Error ?? $"Ruleset not found for city {command.City}");
+
+            var rules = rulesResult.Value;
+
+            // Step 5: Calculate fee
+            var calcResult = taxCalculator.CalculateDailyFee(
+                dayToll,
+                TimeSlotRuleReadModelToTimeSlotMapper.MapMany(rules.TimeSlots),
+                HolidayRuleReadModelToDateOnlyMapper.MapMany(rules.Holidays),
+                VehicleFreeRuleReadModelToVehicleTypeMapper.MapMany(rules.TollFreeVehicles),
+                60);
+
+            if (!calcResult.IsSuccess)
+                return CommandResult.Failure<int>(calcResult.Error ?? "Fee calculation failed");
+
+            var dailyFee = calcResult.Value.TotalFee;
+
+            // Step 6: Apply fee
+            dayToll.ApplyCalculatedFee(dailyFee);
+
+            // Step 7: Commit
+            var commitResult = await dayTollRepo.UnitOfWork.CommitAsync(cancellationToken);
+            if (!commitResult.IsSuccess)
+                return CommandResult.Failure<int>(commitResult.Error!);
+
+            return CommandResult<int>.Success(dailyFee);
         }
     }
 }
