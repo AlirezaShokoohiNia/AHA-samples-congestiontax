@@ -1,11 +1,16 @@
 namespace AHA.CongestionTax.Application.DTOs
 {
     /// <summary>
-    /// Data transfer object representing a vehicle to be registered
-    /// through a write-side command.
+    /// Read-side data transfer object representing a vehicle,
+    /// used by CQRS queries and their handlers.
     /// </summary>
     public sealed class VehicleDto
     {
+        /// <summary>
+        /// Unique persistence identifier of the vehicle in the database.
+        /// </summary>
+        public int VehicleId { get; set; }
+
         /// <summary>
         /// Unique license plate identifier of the vehicle.
         /// </summary>
