@@ -1,5 +1,6 @@
 namespace AHA.CongestionTax.Infrastructure.Query.Source1
 {
+    using AHA.CongestionTax.Infrastructure.Query.Source1.ReadModels;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
@@ -22,6 +23,11 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1
             //There is no need to tracking in just query dbcontext
             ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
+
+        /// <summary>
+        /// Read model set for vehicle aggregation.
+        /// </summary>
+        public DbSet<VehicleReadModel> Vehicles => Set<VehicleReadModel>();
 
         /// <summary>
         /// Applies read model configurations.
