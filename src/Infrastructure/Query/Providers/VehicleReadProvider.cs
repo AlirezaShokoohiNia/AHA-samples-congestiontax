@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Infrastructure.Query.Source1.Providers
+namespace AHA.CongestionTax.Infrastructure.Query.Providers
 {
     using System.Threading;
     using System.Threading.Tasks;
@@ -6,6 +6,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1.Providers
     using AHA.CongestionTax.Application.Abstractions.Queries.Providers;
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Infrastructure.Query.Mappers;
+    using AHA.CongestionTax.Infrastructure.Query.Source1;
     using Microsoft.EntityFrameworkCore;
 
     public sealed class VehicleReadProvider(QueryDbContext queryDbContext)
