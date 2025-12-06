@@ -34,7 +34,10 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1
         /// </summary>
         /// <param name="modelBuilder">The model builder.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-            => modelBuilder.ApplyConfigurationsFromAssembly(typeof(QueryDbContext).Assembly);
-
+        {
+            _ = modelBuilder.ApplyConfigurationsFromAssembly(
+                    typeof(QueryDbContext).Assembly,
+                    t => t.Namespace != null && t.Namespace.Contains("AHA.CongestionTax.Infrastructure.Query.Source1.Configurations"));
+        }
     }
 }
