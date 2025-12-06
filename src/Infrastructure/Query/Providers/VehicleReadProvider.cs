@@ -9,7 +9,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
     using AHA.CongestionTax.Infrastructure.Query.Source1;
     using Microsoft.EntityFrameworkCore;
 
-    public sealed class VehicleReadProvider(IQueryDbContext queryDbContext)
+    public sealed class VehicleReadProvider(QueryDbContext queryDbContext)
         : IVehicleReadProvider
     {
         public async Task<QueryResult<VehicleDto>> GetVehicleAsync(
