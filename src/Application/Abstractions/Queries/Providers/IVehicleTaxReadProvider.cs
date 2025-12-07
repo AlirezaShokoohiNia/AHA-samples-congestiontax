@@ -19,10 +19,10 @@ namespace AHA.CongestionTax.Application.Abstractions.Queries.Providers
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Retrieves the daily tax amounts per city for the given vehicle
+        /// Retrieves all daily toll records for the given vehicle
         /// within the specified date range.
         /// </summary>
-        Task<QueryResult<IReadOnlyCollection<VehicleDailyTaxDto>>> GetDailyTaxPerCityAsync(
+        Task<QueryResult<IReadOnlyCollection<VehicleDailyTaxDto>>> GetDailyTaxRecordsAsync(
             int vehicleId,
             DateOnly fromDate,
             DateOnly toDate,

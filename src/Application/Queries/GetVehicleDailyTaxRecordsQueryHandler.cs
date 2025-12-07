@@ -10,16 +10,16 @@ namespace AHA.CongestionTax.Application.Queries
     /// <summary>
     /// Handles the query for retrieving daily tax per city of a vehicle.
     /// </summary>
-    public class GetVehicleDailyTaxPerCityQueryHandler(IVehicleTaxReadProvider provider)
-                : IQueryHandler<GetVehicleDailyTaxPerCityQuery, IReadOnlyCollection<VehicleDailyTaxDto>>
+    public class GetVehicleDailyTaxRecordsQueryHandler(IVehicleTaxReadProvider provider)
+                : IQueryHandler<GetVehicleDailyTaxRecordsQuery, IReadOnlyCollection<VehicleDailyTaxDto>>
     {
 
         public Task<QueryResult<IReadOnlyCollection<VehicleDailyTaxDto>>> HandleAsync(
-            GetVehicleDailyTaxPerCityQuery query,
+            GetVehicleDailyTaxRecordsQuery query,
             CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(query);
-            return provider.GetDailyTaxPerCityAsync(
+            return provider.GetDailyTaxRecordsAsync(
                 query.VehicleId,
                 query.FromDate,
                 query.ToDate,

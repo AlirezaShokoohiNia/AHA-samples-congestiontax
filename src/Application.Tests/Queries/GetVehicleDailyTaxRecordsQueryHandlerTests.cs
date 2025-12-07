@@ -11,11 +11,11 @@ namespace AHA.CongestionTax.Application.Queries.Tests
     using Moq;
     using Xunit;
 
-    public class GetVehicleDailyTaxPerCityQueryHandlerTests
+    public class GetVehicleDailyTaxRecordsQueryHandlerTests
     {
 
         [Fact]
-        public async Task DailyTaxPerCityHandler_ReturnsSuccess()
+        public async Task DailyTaxRecordsQueryHandler_ReturnsSuccess()
         {
             var dtoList = new List<VehicleDailyTaxDto>
         {
@@ -24,12 +24,12 @@ namespace AHA.CongestionTax.Application.Queries.Tests
 
             var mockProvider = new Mock<IVehicleTaxReadProvider>();
             mockProvider
-                .Setup(p => p.GetDailyTaxPerCityAsync(1, It.IsAny<DateOnly>(), It.IsAny<DateOnly>(), It.IsAny<CancellationToken>()))
+                .Setup(p => p.GetDailyTaxRecordsAsync(1, It.IsAny<DateOnly>(), It.IsAny<DateOnly>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(QueryResult.Success<IReadOnlyCollection<VehicleDailyTaxDto>>(dtoList));
 
-            var handler = new GetVehicleDailyTaxPerCityQueryHandler(mockProvider.Object);
+            var handler = new GetVehicleDailyTaxRecordsQueryHandler(mockProvider.Object);
 
-            var result = await handler.HandleAsync(new GetVehicleDailyTaxPerCityQuery(1, DateOnly.FromDateTime(DateTime.Today.AddDays(-7)), DateOnly.FromDateTime(DateTime.Today)));
+            var result = await handler.HandleAsync(new GetVehicleDailyTaxRecordsQuery(1, DateOnly.FromDateTime(DateTime.Today.AddDays(-7)), DateOnly.FromDateTime(DateTime.Today)));
 
             Assert.True(result.IsSuccess);
             Assert.Single(result.Value!);
@@ -37,10 +37,10 @@ namespace AHA.CongestionTax.Application.Queries.Tests
         }
 
         [Fact]
-        public async Task DailyTaxPerCityHandler_Throws_WhenQueryIsNull()
+        public async Task DailyTaxRecordsQueryHandler_Throws_WhenQueryIsNull()
         {
             var mockProvider = new Mock<IVehicleTaxReadProvider>();
-            var handler = new GetVehicleDailyTaxPerCityQueryHandler(mockProvider.Object);
+            var handler = new GetVehicleDailyTaxRecordsQueryHandler(mockProvider.Object);
 
             await Assert.ThrowsAsync<ArgumentNullException>(() => handler.HandleAsync(null!));
         }
