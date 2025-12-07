@@ -1,4 +1,4 @@
-namespace AHA.Sample01.Infrastructure.Data.Configurations
+namespace AHA.CongestionTax.Infrastructure.Data.Configurations
 {
     using AHA.CongestionTax.Domain.DayTollAgg;
     using Microsoft.EntityFrameworkCore;
