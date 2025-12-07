@@ -2,11 +2,24 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1.Tests
 {
 
     using AHA.CongestionTax.Infrastructure.Query.Source1;
+    using AHA.CongestionTax.Infrastructure.Query.Source1.ReadModels;
     using Microsoft.EntityFrameworkCore;
 
     public class TestQueryDbContext(DbContextOptions<QueryDbContext> options)
         : QueryDbContext(options)
     {
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            // Map all read models to be comfortable for seeding
+            modelBuilder
+                .Entity<DayTollReadModel>()
+                .ToTable("DayToll")
+                .HasKey(["VehicleId", "Date"]);
+            modelBuilder
+                .Entity<VehicleReadModel>()
+                .HasKey(v => v.VehicleId);
+        }
 
         /// <summary>
         /// Seeds the given read models into the in-memory database.
