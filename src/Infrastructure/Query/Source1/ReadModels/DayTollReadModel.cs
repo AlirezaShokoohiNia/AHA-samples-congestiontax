@@ -6,6 +6,11 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1.ReadModels
     public sealed class DayTollReadModel
     {
         /// <summary>
+        /// Unique persistence identifier of the vehicle in the database.
+        /// </summary>
+        public int VehicleId { get; set; }
+
+        /// <summary>
         /// Unique license plate identifier for the vehicle.
         /// </summary>
         public string LicensePlate { get; private set; } = default!;
