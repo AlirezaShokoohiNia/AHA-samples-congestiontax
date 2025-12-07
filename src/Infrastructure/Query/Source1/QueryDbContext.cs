@@ -30,6 +30,11 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1
         public DbSet<VehicleReadModel> Vehicles => Set<VehicleReadModel>();
 
         /// <summary>
+        /// Read model set for DayToll with Vehicle aggergation.
+        /// </summary>
+        public DbSet<DayTollReadModel> DayTolls => Set<DayTollReadModel>();
+
+        /// <summary>
         /// Applies read model configurations.
         /// </summary>
         /// <param name="modelBuilder">The model builder.</param>
