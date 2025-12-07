@@ -1,6 +1,6 @@
 namespace AHA.CongestionTax.Application.Commands
 {
-    using AHA.CongestionTax.Application.Abstractions;
+    using AHA.CongestionTax.Application.Abstractions.Commands;
     using AHA.CongestionTax.Application.Dtos;
 
     /// <summary>

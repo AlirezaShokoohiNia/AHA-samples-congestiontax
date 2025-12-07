@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Application.Abstractions
+namespace AHA.CongestionTax.Application.Abstractions.Commands
 {
     /// <summary>
     /// Marker interface representing a command in the CQRS model.

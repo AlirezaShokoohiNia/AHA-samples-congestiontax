@@ -2,7 +2,7 @@ namespace AHA.CongestionTax.Application.Commands
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AHA.CongestionTax.Application.Abstractions;
+    using AHA.CongestionTax.Application.Abstractions.Commands;
     using AHA.CongestionTax.Domain.ValueObjects;
     using AHA.CongestionTax.Domain.VehicleAgg;
 
