@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Tests.Infrastructure.Query.Providers.Tests
+namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
 {
     using System.Threading.Tasks;
     using AHA.CongestionTax.Infrastructure.Query.Providers;

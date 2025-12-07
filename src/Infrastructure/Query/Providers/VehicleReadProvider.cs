@@ -2,8 +2,8 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AHA.CongestionTax.Application.Abstractions;
-    using AHA.CongestionTax.Application.Abstractions.Queries.Providers;
+    using AHA.CongestionTax.Application.Abstractions.Query;
+    using AHA.CongestionTax.Application.Abstractions.Query.Providers;
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Infrastructure.Query.Mappers;
     using AHA.CongestionTax.Infrastructure.Query.Source1;

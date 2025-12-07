@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Application.Abstractions.Queries
+namespace AHA.CongestionTax.Application.Abstractions.Query
 {
     /// <summary>
     /// Represents a marker interface for application queries

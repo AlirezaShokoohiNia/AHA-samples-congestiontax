@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Application.Abstractions
+namespace AHA.CongestionTax.Application.Abstractions.Query
 {
     /// <summary>
     /// Represents the outcome of a query operation in the application layer.

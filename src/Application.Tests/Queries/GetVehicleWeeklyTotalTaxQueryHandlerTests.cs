@@ -3,8 +3,8 @@ namespace AHA.CongestionTax.Application.Queries.Tests
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using AHA.CongestionTax.Application.Abstractions;
-    using AHA.CongestionTax.Application.Abstractions.Queries.Providers;
+    using AHA.CongestionTax.Application.Abstractions.Query;
+    using AHA.CongestionTax.Application.Abstractions.Query.Providers;
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Application.Queries;
     using Moq;

@@ -1,6 +1,6 @@
 namespace AHA.CongestionTax.Application.Queries
 {
-    using AHA.CongestionTax.Application.Abstractions.Queries;
+    using AHA.CongestionTax.Application.Abstractions.Query;
 
     /// <summary>
     /// Represents a query to retrieve a vehicle by license plate.

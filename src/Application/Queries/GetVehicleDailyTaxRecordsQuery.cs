@@ -1,6 +1,6 @@
 namespace AHA.CongestionTax.Application.Queries
 {
-    using AHA.CongestionTax.Application.Abstractions.Queries;
+    using AHA.CongestionTax.Application.Abstractions.Query;
 
     /// <summary>
     /// Query to retrieve daily tax amounts records for a vehicle
