@@ -1,6 +1,6 @@
 namespace AHA.CongestionTax.Application.Commands
 {
-    using AHA.CongestionTax.Application.Abstractions.Commands;
+    using AHA.CongestionTax.Application.Abstractions.Command;
 
     /// <summary>
     /// Command used to register a new vehicle in the system.

@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Application.Abstractions.Commands
+namespace AHA.CongestionTax.Application.Abstractions.Command
 {
     using System.Threading;
     using System.Threading.Tasks;

@@ -2,7 +2,7 @@ namespace AHA.CongestionTax.Application.Commands
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using AHA.CongestionTax.Application.Abstractions.Commands;
+    using AHA.CongestionTax.Application.Abstractions.Command;
     using AHA.CongestionTax.Application.Mappers;
     using AHA.CongestionTax.Application.ReadModels.Queries;
     using AHA.CongestionTax.Domain.DayTollAgg;

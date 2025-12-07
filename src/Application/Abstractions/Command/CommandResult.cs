@@ -1,4 +1,4 @@
-namespace AHA.CongestionTax.Application.Abstractions.Commands
+namespace AHA.CongestionTax.Application.Abstractions.Command
 {
     /// <summary>
     /// Represents the outcome of a command operation in the application layer.
