@@ -23,6 +23,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 // Map CQRS endpoints
-//...
+ApiEndpoints.Map(app);
 
 app.Run();
