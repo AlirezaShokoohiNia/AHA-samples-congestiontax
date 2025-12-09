@@ -9,11 +9,14 @@ The goal is clarity, correctness, and maintainability.
 
 ---
 
-## 🟦 WHAT – The Business Requirement  
+## 🟦 WHAT – The Business Requirement
 
-Brief summary: record vehicle passes, calculate fees, enforce exemptions, daily caps.  
+The system calculates congestion tax fees for vehicles entering/exiting a city.  
+Key rules: record passes, apply time‑based fees, enforce exemptions, daily caps, and single‑charge rule.
 
-For detailed business rules, see [Domain Model](./docs/Domain-Model.md).
+برای توضیحات کامل به زبان فارسی، لطفاً [Business-Requirements.fa.md](docs/Business-Requirements.fa.md) را ببینید.
+
+For full details in English, see [Business-Requirements.md](docs/Business-Requirements.md).
 
 ---
 
@@ -26,7 +29,7 @@ Designed to showcase: clean architecture, DDD, CQRS, testability, and scalabilit
 - Application services, command/query handlers, and infrastructure adapters are validated via tests first.  
 - This approach enforces clear boundaries, maintainable design, and early bug detection.
 
-Full architecture details are in [Architecture](./docs/Architecture.md).
+Full architecture details are in [Architecture](docs/Architecture.md).
 
 ---
 
@@ -37,9 +40,8 @@ The project is structured using:
 - Commands & Queries for orchestration  
 - Automated tests (Domain, Application, API)  
 
-For detailed architecture and patterns see [Architecture](./docs/Architecture.md).  
-For API endpoints see [API Summary](./docs/API-Summary.md).  
-For testing approach see [Testing Strategy](./docs/Testing-Strategy.md).
+For detailed architecture and patterns see [Architecture](docs/Architecture.md).  
+For testing approach see [Testing Strategy](docs/Testing-Strategy.md).
 
 ---
 
@@ -49,17 +51,14 @@ Aligned with your choices:
 ```
 src/
  ├── AHA.Samples.CongestionTax.sln
- ├── AHA.CongestionTax.Api/
- ├── AHA.CongestionTax.Application/
- ├── AHA.CongestionTax.Domain/
- ├── AHA.CongestionTax.Infrastructure/
- ├── AHA.CongestionTax.Contracts/        # Request/response DTOs
- ├── AHA.CongestionTax.Seedwork/         # Shared abstractions
- └── Tests/
-     ├── AHA.CongestionTax.Api.Tests/
-     ├── AHA.CongestionTax.Application.Tests/
-     ├── AHA.CongestionTax.Domain.Tests/
-     └── AHA.CongestionTax.Infrastructure.Tests/
+ ├── Api/
+ ├── Api.Tests/
+ ├── Application/
+ ├── Application.Tests/
+ ├── Domain/
+ ├── Domain.Tests/
+ ├── Infrastructure/
+ ├── Infrastructure.Tests/
 ```
 
 Namespaces follow:  
@@ -74,7 +73,6 @@ and tests:
 ### **Requirements**
 - .NET 9 SDK  
 - Git  
-- Optional: Docker (if API containerization is added)
 
 ### **Build**
 ```bash
