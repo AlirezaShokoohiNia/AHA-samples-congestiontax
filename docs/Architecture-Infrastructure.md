@@ -26,7 +26,7 @@ This layer bridges the Application abstractions with actual storage (SQL databas
     - Read models for rule sets (`RuleSetReadModel`, `HolidayRuleReadModel`, `TimeSlotRuleReadModel`, `VehicleFreeRuleReadModel`).  
     - Provides external rule definitions independent of database.  
   - **Providers**: Concrete implementations (`RuleSetReadFileProvider`, `VehicleReadProvider`, `VehicleTaxReadProvider`) that expose read models to Application layer.  
-    - The architecture allows replacing `RuleSetReadFileProvider` with any other implementation of `IRuleSetReadProvider` (e.g., Redis, REST API, or other technologies) without affecting Application layer contracts.  
+    - The architecture allows replacing `RuleSetReadFileProvider` with any other implementation of `IRuleSetReadProvider` (e.g., Redis, REST API, or other technologies) without affecting Application layer contracts. [More detail ...](./Architecture-Rules.md)  
   - **Mappers**: Convert read models into DTOs (`VehicleReadModelToVehicleDtoMapper`, `RuleSetReadModelToRuleSetDto`, etc.).
 
 ---
