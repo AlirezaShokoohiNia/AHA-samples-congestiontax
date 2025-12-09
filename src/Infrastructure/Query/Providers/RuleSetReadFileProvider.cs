@@ -10,9 +10,14 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
     using AHA.CongestionTax.Infrastructure.Query.Source2.ReadModels;
 
     /// <summary>
-    /// File-based read provider for rule sets.
-    /// Reads JSON files named {city}.rules.json from a base path.
+    /// Provides congestion tax rule sets by reading JSON files from a configured base path.
     /// </summary>
+    /// <remarks>
+    /// Each rule set must follow the convention <c>{city}.rules.json</c>.
+    /// This provider enforces convention-based lookup to ensure consistency across environments.
+    /// Initializes a new instance of the <see cref="RuleSetReadFileProvider"/>.
+    /// </remarks>
+    /// <param name="basePath">The directory path containing rule set files.</param>
     public class RuleSetReadFileProvider(string basePath)
         : IRuleSetReadProvider
     {
@@ -21,6 +26,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
             PropertyNameCaseInsensitive = true
         };
 
+        /// <inheritdoc />
         public async Task<QueryResult<RuleSetDto>> GetRulesForCityAsync(
             string city,
             CancellationToken cancellationToken = default)
