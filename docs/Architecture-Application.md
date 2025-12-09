@@ -78,12 +78,12 @@ The Application layer is the orchestration hub:
 ---
 
 ## Architectural Notes
-
 - Application layer orchestrates domain logic via commands and queries.  
 - CQRS separation is enforced: write side depends on Domain, read side uses providers.  
 - Read side supports multiple sources (database + JSON RuleSets) without coupling to domain internals.  
 - DTOs and mappers isolate transport contracts from domain value objects.  
 - Abstractions define clear boundaries for extensibility and testability.  
 - Handlers remain thin: delegate business rules to Domain, delegate persistence to Infrastructure.  
+- Mappers are designed with future alignment to `Infrastructure.Crosscutting.ITypeAdapter`, ensuring consistent adaptation strategy across layers.  
 
 ---

@@ -68,3 +68,6 @@ The Infrastructure layer is the persistence and data access backbone:
 - Read side supports heterogeneous sources (SQL + JSON) without leaking implementation details.  
 - Mappers ensure DTO isolation from persistence models.  
 - Tests use in‑memory contexts and file providers to validate correctness without external dependencies.  
+- Mappers are designed with future alignment to `Infrastructure.Crosscutting.ITypeAdapter`, ensuring consistent adaptation strategy across layers.  
+
+---
