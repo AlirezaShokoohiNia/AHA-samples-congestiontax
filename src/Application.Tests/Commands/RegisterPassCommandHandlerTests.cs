@@ -1,8 +1,9 @@
 namespace AHA.CongestionTax.Application.Commands.Tests
 {
+    using AHA.CongestionTax.Application.Abstractions.Query;
     using AHA.CongestionTax.Application.Commands;
-    using AHA.CongestionTax.Application.ReadModels.Queries;
-    using AHA.CongestionTax.Application.ReadModels.Queries.RuleSets;
+    using AHA.CongestionTax.Application.DTOs;
+    using AHA.CongestionTax.Application.Queries;
     using AHA.CongestionTax.Domain.Abstractions;
     using AHA.CongestionTax.Domain.DayTollAgg;
     using AHA.CongestionTax.Domain.Services;
@@ -15,7 +16,7 @@ namespace AHA.CongestionTax.Application.Commands.Tests
     {
         private readonly Mock<IVehicleRepository> _vehicleRepo;
         private readonly Mock<IDayTollRepository> _dayTollRepo;
-        private readonly Mock<IRuleSetQueries> _ruleSetQueries;
+        private readonly Mock<IQueryHandler<GetRuleSetQuery, RuleSetDto>> _getRuleSetQueryHandler;
         private readonly Mock<ICongestionTaxCalculator> _taxCalculator;
         private readonly RegisterPassCommandHandler _handler;
 
@@ -23,10 +24,10 @@ namespace AHA.CongestionTax.Application.Commands.Tests
         {
             _vehicleRepo = new Mock<IVehicleRepository>();
             _dayTollRepo = new Mock<IDayTollRepository>();
-            _ruleSetQueries = new Mock<IRuleSetQueries>();
+            _getRuleSetQueryHandler = new Mock<IQueryHandler<GetRuleSetQuery, RuleSetDto>>();
             _taxCalculator = new Mock<ICongestionTaxCalculator>();
 
-            _handler = new(_vehicleRepo.Object, _dayTollRepo.Object, _ruleSetQueries.Object, _taxCalculator.Object);
+            _handler = new(_vehicleRepo.Object, _dayTollRepo.Object, _getRuleSetQueryHandler.Object, _taxCalculator.Object);
         }
 
         [Fact]
@@ -48,11 +49,12 @@ namespace AHA.CongestionTax.Application.Commands.Tests
         }
 
         [Fact]
-        public async void RegisterPass_Should_Create_New_DayToll_When_NotExists()
+        public async Task RegisterPass_Should_Create_New_DayToll_When_NotExists()
         {
             // Arrange
             var cmd = new RegisterPassCommand("ABC123", new DateTime(2025, 11, 30, 8, 0, 0), "Gothenburg");
             var vehicle = new Vehicle("ABC123", VehicleType.Car);
+            var getRuleSetQuery = new GetRuleSetQuery(cmd.City);
 
             _vehicleRepo
                 .Setup(r => r.GetByPlateAsync("ABC123", It.IsAny<CancellationToken>()))
@@ -66,9 +68,9 @@ namespace AHA.CongestionTax.Application.Commands.Tests
                 .Setup(r => r.AddAsync(It.IsAny<DayToll>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Success());
 
-            _ruleSetQueries
-                .Setup(q => q.GetRulesForCityAsync(cmd.City))
-                .ReturnsAsync(ReadModelsQueryResult.Success(new RuleSetReadModel
+            _getRuleSetQueryHandler
+                .Setup(q => q.HandleAsync(getRuleSetQuery, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(QueryResult.Success(new RuleSetDto
                 {
                     City = cmd.City,
                     TimeSlots = [],
@@ -95,12 +97,13 @@ namespace AHA.CongestionTax.Application.Commands.Tests
         }
 
         [Fact]
-        public async void RegisterPass_Should_Update_Existing_DayToll_And_Recalculate_Fee()
+        public async Task RegisterPass_Should_Update_Existing_DayToll_And_Recalculate_Fee()
         {
             // Arrange
             var cmd = new RegisterPassCommand("XYZ999", new DateTime(2025, 11, 30, 9, 0, 0), "Gothenburg");
             var vehicle = new Vehicle("XYZ999", VehicleType.Car);
             var dayToll = new DayToll(vehicle, cmd.City, DateOnly.FromDateTime(cmd.Timestamp));
+            var getRuleSetQuery = new GetRuleSetQuery(cmd.City);
 
             _vehicleRepo
                 .Setup(r => r.GetByPlateAsync("XYZ999", It.IsAny<CancellationToken>()))
@@ -110,9 +113,9 @@ namespace AHA.CongestionTax.Application.Commands.Tests
                 .Setup(r => r.GetByVehicleAndCityAndDateAsync(vehicle.Id, cmd.City, DateOnly.FromDateTime(cmd.Timestamp), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(Result.Success(dayToll));
 
-            _ruleSetQueries
-                .Setup(q => q.GetRulesForCityAsync(cmd.City))
-                .ReturnsAsync(ReadModelsQueryResult.Success(new RuleSetReadModel
+            _getRuleSetQueryHandler
+                .Setup(q => q.HandleAsync(getRuleSetQuery, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(QueryResult.Success(new RuleSetDto
                 {
                     City = cmd.City,
                     TimeSlots = [],

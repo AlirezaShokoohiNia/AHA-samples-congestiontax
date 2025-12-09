@@ -3,8 +3,10 @@ namespace AHA.CongestionTax.Application.Commands
     using System.Threading;
     using System.Threading.Tasks;
     using AHA.CongestionTax.Application.Abstractions.Command;
+    using AHA.CongestionTax.Application.Abstractions.Query;
+    using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Application.Mappers;
-    using AHA.CongestionTax.Application.ReadModels.Queries;
+    using AHA.CongestionTax.Application.Queries;
     using AHA.CongestionTax.Domain.DayTollAgg;
     using AHA.CongestionTax.Domain.Services;
     using AHA.CongestionTax.Domain.VehicleAgg;
@@ -12,7 +14,7 @@ namespace AHA.CongestionTax.Application.Commands
     public class RegisterPassCommandHandler(
         IVehicleRepository vehicleRepo,
         IDayTollRepository dayTollRepo,
-        IRuleSetQueries ruleSetQueries,
+        IQueryHandler<GetRuleSetQuery, RuleSetDto> getRuleSetQueryHandler,
         ICongestionTaxCalculator taxCalculator)
         : ICommandHandler<RegisterPassCommand, int>
     {
@@ -53,7 +55,8 @@ namespace AHA.CongestionTax.Application.Commands
             dayToll.AddPass(time);
 
             // Step 4: Get ruleset
-            var rulesResult = await ruleSetQueries.GetRulesForCityAsync(command.City);
+            var getRuleSetQuery = new GetRuleSetQuery(command.City);
+            var rulesResult = await getRuleSetQueryHandler.HandleAsync(getRuleSetQuery, cancellationToken);
             if (!rulesResult.IsSuccess || rulesResult.Value is null)
                 return CommandResult.Failure<int>(rulesResult.Error ?? $"Ruleset not found for city {command.City}");
 
@@ -62,9 +65,9 @@ namespace AHA.CongestionTax.Application.Commands
             // Step 5: Calculate fee
             var calcResult = taxCalculator.CalculateDailyFee(
                 dayToll,
-                TimeSlotRuleReadModelToTimeSlotMapper.MapMany(rules.TimeSlots),
-                HolidayRuleReadModelToDateOnlyMapper.MapMany(rules.Holidays),
-                VehicleFreeRuleReadModelToVehicleTypeMapper.MapMany(rules.TollFreeVehicles),
+                TimeSlotRuleDtoToTimeSlotMapper.MapMany(rules.TimeSlots),
+                HolidayRuleDtoToDateOnlyMapper.MapMany(rules.Holidays),
+                VehicleFreeRuleDtoToVehicleTypeMapper.MapMany(rules.TollFreeVehicles),
                 60);
 
             if (!calcResult.IsSuccess)
