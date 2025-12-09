@@ -26,6 +26,7 @@ This layer bridges the Application abstractions with actual storage (SQL databas
     - Read models for rule sets (`RuleSetReadModel`, `HolidayRuleReadModel`, `TimeSlotRuleReadModel`, `VehicleFreeRuleReadModel`).  
     - Provides external rule definitions independent of database.  
   - **Providers**: Concrete implementations (`RuleSetReadFileProvider`, `VehicleReadProvider`, `VehicleTaxReadProvider`) that expose read models to Application layer.  
+    - The architecture allows replacing `RuleSetReadFileProvider` with any other implementation of `IRuleSetReadProvider` (e.g., Redis, REST API, or other technologies) without affecting Application layer contracts.  
   - **Mappers**: Convert read models into DTOs (`VehicleReadModelToVehicleDtoMapper`, `RuleSetReadModelToRuleSetDto`, etc.).
 
 ---
@@ -41,6 +42,7 @@ This layer bridges the Application abstractions with actual storage (SQL databas
   - Source1: Database read models for queries aligned with persisted state.  
   - Source2: JSON file read models for rule sets and exemptions.  
   - Providers abstract both sources, enabling flexible query handling in Application layer.  
+  - Providers are interchangeable: `IRuleSetReadProvider` can be backed by JSON, Redis, or other technologies.  
   - Mappers isolate DTO contracts from raw read models.
 
 ---
@@ -60,12 +62,14 @@ The Infrastructure layer is the persistence and data access backbone:
 - Data folder implements CQRS write side with repositories and `AppDbContext`.  
 - Query folder implements CQRS read side with dual sources (database + JSON).  
 - Providers and mappers expose clean DTOs to Application layer.  
+- Providers are designed to be replaceable, supporting alternative technologies like Redis.  
 - Testing ensures correctness of persistence, providers, and mappings.
 
 ## Architectural Notes
 - Infrastructure layer depends on EF Core and file I/O, but isolates these behind repositories and providers.  
 - Write side enforces repository + unit of work pattern for consistency.  
 - Read side supports heterogeneous sources (SQL + JSON) without leaking implementation details.  
+- Providers are interchangeable: `IRuleSetReadProvider` can be swapped for other technologies (e.g., Redis) without breaking Application contracts.  
 - Mappers ensure DTO isolation from persistence models.  
 - Tests use in‑memory contexts and file providers to validate correctness without external dependencies.  
 - Mappers are designed with future alignment to `Infrastructure.Crosscutting.ITypeAdapter`, ensuring consistent adaptation strategy across layers.  
