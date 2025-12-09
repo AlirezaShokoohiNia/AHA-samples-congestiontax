@@ -18,12 +18,12 @@ specific city.
 - City
 - Date
 - TotalFee
-- PassRecords (collection)
+- Passes (collection)
 - Behavior:
   - AddPass(time)
-  - ApplyCalculatedFee(amount)
+  - ApplyCalculatedFee(dailyFee)
 
-### **(Optional) Vehicle**
+### **Vehicle**
 A lightweight entity used internally for type classification and
 license-plate identity.
 
@@ -93,7 +93,7 @@ Thrown when an invariant is broken (negative fee, invalid state).
 ## Architectural Notes
 
 - Domain layer is pure C#, no external dependencies.
-- All rules come from *Application Layer* (RuleSetReader).
+- All rules come from *Application Layer* (IRuleSetReadeProvider).
 - Domain service is stateless and reusable.
 - Aggregate remains small and focused (only state + behavior).
 
