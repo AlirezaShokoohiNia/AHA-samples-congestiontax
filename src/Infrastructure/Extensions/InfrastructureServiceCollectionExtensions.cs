@@ -2,6 +2,7 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
 {
     using AHA.CongestionTax.Application.Abstractions.Query.Providers;
     using AHA.CongestionTax.Domain.DayTollAgg;
+    using AHA.CongestionTax.Domain.Services;
     using AHA.CongestionTax.Domain.VehicleAgg;
     using AHA.CongestionTax.Infrastructure.Data;
     using AHA.CongestionTax.Infrastructure.Data.Repositories;
@@ -25,6 +26,8 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
             _ = services.AddScoped<IVehicleRepository, VehicleRepository>()
                         .AddScoped<IDayTollRepository, DayTollRepository>();
 
+            // Domain Services
+            _ = services.AddScoped<ICongestionTaxCalculator, CongestionTaxCalculator>();
             return services;
         }
     }
