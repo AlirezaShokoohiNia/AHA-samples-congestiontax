@@ -7,6 +7,7 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
     using AHA.CongestionTax.Infrastructure.Data;
     using AHA.CongestionTax.Infrastructure.Data.Repositories;
     using AHA.CongestionTax.Infrastructure.Query.Providers;
+    using AHA.CongestionTax.Infrastructure.Query.Source1;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,10 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
         {
             // DbContexts
             _ = services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(config.GetConnectionString("DefaultConnection")));
+                options.UseSqlite(config.GetConnectionString("WriteDbConnection")));
+
+            _ = services.AddDbContext<QueryDbContext>(options =>
+                options.UseSqlite(config.GetConnectionString("ReadDbConnection")));
 
             // Options
             _ = services.Configure<RuleSetOptions>(config.GetSection("RuleSet"));
