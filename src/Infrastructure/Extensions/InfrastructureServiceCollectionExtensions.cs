@@ -34,7 +34,9 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
                         {
                             var opts = sp.GetRequiredService<IOptions<RuleSetOptions>>().Value;
                             return new RuleSetReadFileProvider(opts.BasePath);
-                        });
+                        })
+                        .AddScoped<IVehicleTaxReadProvider, VehicleTaxReadProvider>()
+                        .AddScoped<IVehicleReadProvider, VehicleReadProvider>();
 
             // Repositories
             _ = services.AddScoped<IVehicleRepository, VehicleRepository>()
