@@ -15,9 +15,10 @@ namespace AHA.CongestionTax.Application.Abstractions.Query.Providers
         /// </summary>
         /// 
         /// <param name="city">City name to query rules for.</param>
+        /// <param name="cancellationToken">A token to observe while waiting for the operation to complete.</param>
         /// 
         /// <returns>
-        /// A <see cref="QueryResult{T}"/> containing the <see cref="RuleSetReadModel"/> if found,
+        /// A <see cref="QueryResult{T}"/> containing the <see cref="RuleSetDto"/> if found,
         /// or a failure result with an error message if not found or query fails.
         /// </returns>
         Task<QueryResult<RuleSetDto>> GetRulesForCityAsync(

@@ -14,7 +14,7 @@ namespace AHA.CongestionTax.Application.Queries
     /// <remarks>
     /// Initializes a new instance of the handler with the specified provider.
     /// </remarks>
-    /// <param name="vehicleReadProvider">The rule sets read provider.</param>
+    /// <param name="ruleSetReadProvider">The rule sets read provider.</param>
     public class GetRuleSetQueryHandler(IRuleSetReadProvider ruleSetReadProvider)
             : IQueryHandler<GetRuleSetQuery, RuleSetDto>
     {
