@@ -1,3 +1,4 @@
+using AHA.CongestionTax.Api;
 using AHA.CongestionTax.Application.Extensions;
 using AHA.CongestionTax.Infrastructure.Extensions;
 using Microsoft.OpenApi;
