@@ -10,17 +10,31 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
+
 
     public static class InfrastructureServiceCollectionExtensions
     {
+        private class RuleSetOptions
+        {
+            public string BasePath { get; set; } = string.Empty;
+        }
+
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
         {
             // DbContexts
             _ = services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlite(config.GetConnectionString("DefaultConnection")));
 
+            // Options
+            _ = services.Configure<RuleSetOptions>(config.GetSection("RuleSet"));
+
             // Providers
-            _ = services.AddScoped<IRuleSetReadProvider, RuleSetReadFileProvider>();
+            _ = services.AddScoped<IRuleSetReadProvider>(sp =>
+                        {
+                            var opts = sp.GetRequiredService<IOptions<RuleSetOptions>>().Value;
+                            return new RuleSetReadFileProvider(opts.BasePath);
+                        });
 
             // Repositories
             _ = services.AddScoped<IVehicleRepository, VehicleRepository>()
