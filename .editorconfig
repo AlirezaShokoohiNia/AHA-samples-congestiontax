@@ -125,7 +125,7 @@ csharp_style_expression_bodied_local_functions = false : suggestion
 #############################################################################
 # Matches your real test project folders
 [src/*.Tests/**/*.cs]
-
+[src/*.Tests/*.cs]
 dotnet_diagnostic.CA1707.severity = none  # Allow underscores in test names
 dotnet_diagnostic.IDE0058.severity = none # Allow unused expressions in tests
 
