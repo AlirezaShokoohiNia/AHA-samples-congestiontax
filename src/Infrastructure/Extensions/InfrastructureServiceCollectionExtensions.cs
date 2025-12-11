@@ -21,14 +21,20 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
             public string BasePath { get; set; } = string.Empty;
         }
 
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddInfrastructure(
+            this IServiceCollection services,
+            IConfiguration config,
+            bool skipDbContexts = false)
         {
-            // DbContexts
-            _ = services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(config.GetConnectionString("WriteDbConnection")));
+            if (!skipDbContexts)
+            {
+                // DbContexts
+                _ = services.AddDbContext<AppDbContext>(options =>
+                    options.UseSqlite(config.GetConnectionString("WriteDbConnection")));
 
-            _ = services.AddDbContext<QueryDbContext>(options =>
-                options.UseSqlite(config.GetConnectionString("ReadDbConnection")));
+                _ = services.AddDbContext<QueryDbContext>(options =>
+                    options.UseSqlite(config.GetConnectionString("ReadDbConnection")));
+            }
 
             // Options
             _ = services.Configure<RuleSetOptions>(config.GetSection("RuleSet"));
