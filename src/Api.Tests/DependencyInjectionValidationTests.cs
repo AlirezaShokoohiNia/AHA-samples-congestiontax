@@ -23,7 +23,7 @@ namespace AHA.CongestionTax.Api.Tests
             _ = builder
                     .Services
                         .AddApplication()
-                        .AddInfrastructure(builder.Configuration, skipDbContexts: false);
+                        .AddInfrastructure(builder.Configuration, skipDbContexts: true);
 
             // Add test registrations
             _ = builder.Services.AddDbContext<AppDbContext>(options =>
