@@ -5,6 +5,7 @@ namespace AHA.CongestionTax.Application.Extensions
     using AHA.CongestionTax.Application.Commands;
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Application.Queries;
+    using AHA.CongestionTax.Domain.Services;
     using Microsoft.Extensions.DependencyInjection;
 
     public static class ApplicationServiceCollectionExtensions
@@ -16,7 +17,8 @@ namespace AHA.CongestionTax.Application.Extensions
                         .AddScoped<IQueryHandler<GetRuleSetQuery, RuleSetDto>, GetRuleSetQueryHandler>()
                         .AddScoped<IQueryHandler<GetVehicleQuery, VehicleDto>, GetVehicleQueryHandler>()
                         .AddScoped<IQueryHandler<GetVehicleDailyTaxRecordsQuery, IReadOnlyCollection<VehicleDailyTaxDto>>, GetVehicleDailyTaxRecordsQueryHandler>()
-                        .AddScoped<IQueryHandler<GetVehicleWeeklyTotalTaxQuery, VehicleTotalTaxDto>, GetVehicleWeeklyTotalTaxQueryHandler>();
+                        .AddScoped<IQueryHandler<GetVehicleWeeklyTotalTaxQuery, VehicleTotalTaxDto>, GetVehicleWeeklyTotalTaxQueryHandler>()
+                        .AddScoped<ICongestionTaxCalculator, CongestionTaxCalculator>();
 
             return services;
         }
