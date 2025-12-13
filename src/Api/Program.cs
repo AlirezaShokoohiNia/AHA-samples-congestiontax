@@ -78,8 +78,26 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Map CQRS endpoints
-ApiEndpoints.Map(app);
+#region Map CQRS endpoints
+// Application services
+builder.Services.AddApplication();
+
+// Infrastructure: write side (AppDbContext)
+builder.Services.AddInfrastructureData(opts =>
+    opts.UseSqlite(builder.Configuration.GetConnectionString("WriteDbConnection")));
+
+// Infrastructure: read side (QueryDbContext)
+builder.Services.AddInfrastructureSource1(opts =>
+    opts.UseSqlite(builder.Configuration.GetConnectionString("ReadDbConnection")));
+
+// Infrastructure: JSON/file sources
+builder.Services.AddInfrastructureSource2();
+
+// Options
+builder.Services.Configure<RuleSetOptions>(
+    builder.Configuration.GetSection("RuleSet"));
+
+#endregion
 
 app.Run();
 
