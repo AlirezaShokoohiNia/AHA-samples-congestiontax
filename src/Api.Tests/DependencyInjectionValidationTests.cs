@@ -9,9 +9,8 @@ namespace AHA.CongestionTax.Api.Tests
     using AHA.CongestionTax.Application.Abstractions.Query;
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore;
-    using AHA.CongestionTax.Infrastructure.Query.Providers;
-    using AHA.CongestionTax.Application.Abstractions.Query.Providers;
     using AHA.CongestionTax.Infrastructure.Query.Source1;
+    using AHA.CongestionTax.Infrastructure.Query.Source2.Options;
 
     public class DependencyInjectionValidationTests
     {
@@ -20,21 +19,26 @@ namespace AHA.CongestionTax.Api.Tests
         public DependencyInjectionValidationTests()
         {
             var builder = WebApplication.CreateBuilder();
-            _ = builder
-                    .Services
-                        .AddApplication()
-                        .AddInfrastructure(builder.Configuration, skipDbContexts: true);
 
-            // Add test registrations
-            _ = builder.Services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase("TestDb"));
+            // Application services
+            builder.Services.AddApplication();
 
-            _ = builder.Services.AddDbContext<QueryDbContext>(options =>
-                options.UseInMemoryDatabase("TestQueryDb"));
+            // Infrastructure: write side (AppDbContext) with InMemory
+            builder.Services.AddInfrastructureData(opts =>
+                opts.UseInMemoryDatabase("TestWriteDb"));
 
-            // Override IRuleSetReadProvider registration for tests
-            _ = builder.Services.AddScoped<IRuleSetReadProvider>(sp =>
-            new RuleSetReadFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "TestData")));
+            // Infrastructure: read side (QueryDbContext) with InMemory
+            builder.Services.AddInfrastructureSource1(opts =>
+                opts.UseInMemoryDatabase("TestReadDb"));
+
+            // Infrastructure: JSON/file providers
+            builder.Services.AddInfrastructureSource2();
+
+            // Override RuleSetOptions for tests
+            builder.Services.Configure<RuleSetOptions>(opts =>
+            {
+                opts.BasePath = Path.Combine(Directory.GetCurrentDirectory(), "TestData");
+            });
 
             _provider = builder.Services.BuildServiceProvider(validateScopes: true);
         }
@@ -42,17 +46,13 @@ namespace AHA.CongestionTax.Api.Tests
         [Fact]
         public void CanResolve_DbContext()
         {
-            var appDbContextType = typeof(AppDbContext);
-            AssertServiceResolvable(appDbContextType);
-
-            var queryDbContextType = typeof(QueryDbContext);
-            AssertServiceResolvable(queryDbContextType);
+            AssertServiceResolvable(typeof(AppDbContext));
+            AssertServiceResolvable(typeof(QueryDbContext));
         }
-        [Fact]
 
+        [Fact]
         public void CanResolve_AllHandlers()
         {
-
             var handlerInterfaces = typeof(ApplicationServiceCollectionExtensions).Assembly
                 .GetTypes()
                 .SelectMany(t => t.GetInterfaces()
