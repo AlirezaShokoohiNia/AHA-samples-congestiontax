@@ -6,6 +6,7 @@ namespace AHA.CongestionTax.Api
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Application.Queries;
 
+    [Obsolete("This class is deprecated. Use specific endpoint classes instead.")]
     public static class ApiEndpoints
     {
         public static void Map(WebApplication app)
