@@ -4,7 +4,7 @@ namespace AHA.CongestionTax.Api.Endpoints
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Application.Queries;
 
-    public static partial class TaxApiEndpoints
+    public static partial class TaxEndpoints
     {
         public static void Map(WebApplication app)
         {
