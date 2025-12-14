@@ -3,7 +3,7 @@ namespace AHA.CongestionTax.Api.Endpoints
     using AHA.CongestionTax.Application.Abstractions.Command;
     using AHA.CongestionTax.Application.Commands;
 
-    public static class PassApiEndpoints
+    public static class PassEndpoints
     {
         public static void Map(WebApplication app)
         {
