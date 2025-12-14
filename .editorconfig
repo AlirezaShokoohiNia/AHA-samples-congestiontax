@@ -36,6 +36,7 @@ csharp_using_directive_placement = inside_namespace:warning
 csharp_style_expression_bodied_methods = when_on_single_line
 dotnet_diagnostic.IDE0007.severity = none # Allow explicit type instead of var
 dotnet_diagnostic.IDE0008.severity = none # Allow explicit type instead of var 
+dotnet_diagnostic.IDE0130.severity = none  # Namespace match folder disabled
 csharp_prefer_braces = false
 indent_size = 4
 
@@ -103,11 +104,11 @@ csharp_style_expression_bodied_local_functions = when_on_single_line : suggestio
 # 2️⃣ Class Libraries — Application, Domain, Infrastructure, Contracts, Seedwork
 #############################################################################
 # Matched exactly to your real folder names
-[src/*.Application/**/.cs]
-[src/*.Domain/**/.cs]
-[src/*.Infrastructure/**/.cs]
-[src/*.Contracts/**/.cs]
-[src/*.Seedwork/**/.cs]
+[**/*.Application/**/.cs]
+[**/*.Domain/**/.cs]
+[**/*.Infrastructure/**/.cs]
+[**/*.Contracts/**/.cs]
+[**/*.Seedwork/**/.cs]
 
 # Prefer explicit types for API clarity
 csharp_style_var_for_built_in_types = true : suggestion
@@ -121,11 +122,11 @@ csharp_style_expression_bodied_local_functions = false : suggestion
 
 
 #############################################################################
-# 3️⃣ Test Projects — Under /src/Tests/
+# 3️⃣ Test Projects 
 #############################################################################
 # Matches your real test project folders
-[src/*.Tests/**/*.cs]
-[src/*.Tests/*.cs]
+[**/*.Tests/**/*.cs]
+[**/*.Tests/*.cs]
 dotnet_diagnostic.CA1707.severity = none  # Allow underscores in test names
 dotnet_diagnostic.IDE0058.severity = none # Allow unused expressions in tests
 
