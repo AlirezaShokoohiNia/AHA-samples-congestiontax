@@ -1,4 +1,3 @@
-using AHA.CongestionTax.Api;
 using AHA.CongestionTax.Application.Extensions;
 using AHA.CongestionTax.Infrastructure.Extensions;
 using AHA.CongestionTax.Infrastructure.Query.Source2.Options;
@@ -7,23 +6,28 @@ using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
+#region Map CQRS endpoints
 // Application services
 builder.Services.AddApplication();
 
-// Infrastructure: write side (AppDbContext)
-builder.Services.AddInfrastructureData(opts =>
-    opts.UseSqlite(builder.Configuration.GetConnectionString("WriteDbConnection")));
+if (!builder.Environment.IsEnvironment("Test"))
+{
+    // Infrastructure: write side (AppDbContext)
+    builder.Services.AddInfrastructureData(opts =>
+        opts.UseSqlite(builder.Configuration.GetConnectionString("WriteDbConnection")));
 
-// Infrastructure: read side (QueryDbContext)
-builder.Services.AddInfrastructureSource1(opts =>
-    opts.UseSqlite(builder.Configuration.GetConnectionString("ReadDbConnection")));
-
+    // Infrastructure: read side (QueryDbContext)
+    builder.Services.AddInfrastructureSource1(opts =>
+        opts.UseSqlite(builder.Configuration.GetConnectionString("ReadDbConnection")));
+}
 // Infrastructure: JSON/file sources
 builder.Services.AddInfrastructureSource2();
 
 //  Infrastructure: Options
 builder.Services.Configure<RuleSetOptions>(
     builder.Configuration.GetSection("RuleSet"));
+
+#endregion
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -77,27 +81,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-#region Map CQRS endpoints
-// Application services
-builder.Services.AddApplication();
-
-// Infrastructure: write side (AppDbContext)
-builder.Services.AddInfrastructureData(opts =>
-    opts.UseSqlite(builder.Configuration.GetConnectionString("WriteDbConnection")));
-
-// Infrastructure: read side (QueryDbContext)
-builder.Services.AddInfrastructureSource1(opts =>
-    opts.UseSqlite(builder.Configuration.GetConnectionString("ReadDbConnection")));
-
-// Infrastructure: JSON/file sources
-builder.Services.AddInfrastructureSource2();
-
-// Options
-builder.Services.Configure<RuleSetOptions>(
-    builder.Configuration.GetSection("RuleSet"));
-
-#endregion
 
 app.Run();
 
