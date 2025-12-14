@@ -1,3 +1,4 @@
+using AHA.CongestionTax.Api.Endpoints;
 using AHA.CongestionTax.Application.Extensions;
 using AHA.CongestionTax.Infrastructure.Extensions;
 using AHA.CongestionTax.Infrastructure.Query.Source2.Options;
@@ -64,6 +65,15 @@ builder.Services.AddSwaggerGen(options =>
 #endregion
 
 var app = builder.Build();
+
+#region Register CQRS endpoints
+
+PassEndpoints.Map(app);
+RuleEndpoints.Map(app);
+TaxEndpoints.Map(app);
+VehicleEndpoints.Map(app);
+
+#endregion
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
