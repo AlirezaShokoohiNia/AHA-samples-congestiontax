@@ -1,0 +1,95 @@
+{
+    "City": "Gothenburg",
+    "TimeSlots": [
+        {
+            "StartHour": 6,
+            "StartMinute": 0,
+            "EndHour": 6,
+            "EndMinute": 29,
+            "Amount": 8
+        },
+        {
+            "StartHour": 6,
+            "StartMinute": 30,
+            "EndHour": 6,
+            "EndMinute": 59,
+            "Amount": 13
+        },
+        {
+            "StartHour": 7,
+            "StartMinute": 0,
+            "EndHour": 7,
+            "EndMinute": 59,
+            "Amount": 18
+        },
+        {
+            "StartHour": 8,
+            "StartMinute": 0,
+            "EndHour": 8,
+            "EndMinute": 29,
+            "Amount": 13
+        },
+        {
+            "StartHour": 8,
+            "StartMinute": 30,
+            "EndHour": 14,
+            "EndMinute": 59,
+            "Amount": 8
+        },
+        {
+            "StartHour": 15,
+            "StartMinute": 0,
+            "EndHour": 15,
+            "EndMinute": 29,
+            "Amount": 13
+        },
+        {
+            "StartHour": 15,
+            "StartMinute": 30,
+            "EndHour": 16,
+            "EndMinute": 59,
+            "Amount": 18
+        },
+        {
+            "StartHour": 17,
+            "StartMinute": 0,
+            "EndHour": 17,
+            "EndMinute": 59,
+            "Amount": 13
+        },
+        {
+            "StartHour": 18,
+            "StartMinute": 0,
+            "EndHour": 18,
+            "EndMinute": 29,
+            "Amount": 8
+        }
+    ],
+    "Holidays": [
+        {
+            "Date": "2025-01-01",
+            "AppliesToDayBefore": false
+        },
+        {
+            "Date": "2025-12-25",
+            "AppliesToDayBefore": true
+        }
+    ],
+    "TollFreeVehicles": [
+        {
+            "VehicleType": "Emergency"
+        },
+        {
+            "VehicleType": "Motorcycle"
+        },
+        {
+            "VehicleType": "Diplomat"
+        },
+        {
+            "VehicleType": "Foreign"
+        },
+        {
+            "VehicleType": "Military"
+        }
+    ]
+}

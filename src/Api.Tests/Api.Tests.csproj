@@ -34,4 +34,8 @@
     <ProjectReference Include="..\Api\Api.csproj" />
   </ItemGroup>
 
+<ItemGroup>
+  <Content Include="TestData\*.json" CopyToOutputDirectory="Always" />
+</ItemGroup>
+
 </Project>
