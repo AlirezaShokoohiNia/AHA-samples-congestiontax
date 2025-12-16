@@ -29,20 +29,10 @@ namespace AHA.CongestionTax.Api.Endpoints
                 CancellationToken ct) =>
             {
                 var query = new GetVehicleQuery(plate);
-                // var result = await handler.HandleAsync(query, ct);
-                // return result.IsSuccess
-                //     ? Results.Ok(result.Value)
-                //     : Results.NotFound(result.Error);
-
                 var result = await handler.HandleAsync(query, ct);
-                if (result.IsSuccess)
-                    return Results.Ok(result.Value);
-
-                if (result.Error?.StartsWith("Vehicle with plate") == true)
-                    return Results.NotFound(result.Error);
-
-                return Results.Problem(result.Error);
-
+                return result.IsSuccess
+                    ? Results.Ok(result.Value)
+                    : Results.NotFound(result.Error);
             });
 
 
