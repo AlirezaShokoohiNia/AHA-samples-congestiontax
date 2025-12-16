@@ -9,29 +9,28 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
         public async Task GetDailyTaxRecordsAsync_ReturnsRecordsWithinDateRange()
         {
             //Arrange
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
 
             // Seed DayToll read models
-            queryContext.SetData(new List<DayTollReadModel>
-                {
-                    new ()
+            queryContext.DayTolls.AddRange(
+                    new()
                     {
                         VehicleId = 1,
-                        LicensePlate="ABC",
+                        LicensePlate = "ABC",
                         Date = DateOnly.FromDateTime(DateTime.UtcNow),
-                        City="TestCity",
+                        City = "TestCity",
                         TotalFee = 50
                     },
-                    new ()
+                    new()
                     {
                         VehicleId = 1,
-                        LicensePlate="ABC",
+                        LicensePlate = "ABC",
                         Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1)),
-                        City="TestCity",
+                        City = "TestCity",
                         TotalFee = 30
                     }
-                });
-
+                            );
+            queryContext.SaveChanges();
             var provider = new VehicleTaxReadProvider(queryContext);
 
             //Act
@@ -50,10 +49,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
         public async Task GetDailyTaxRecordsAsync_ReturnsEmptyWhenNoRecords()
         {
             //Arrange
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
-
-            // No DayToll records seeded
-            queryContext.SetData(new List<DayTollReadModel>());
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
 
             var provider = new VehicleTaxReadProvider(queryContext);
 
@@ -72,33 +68,40 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
         [Fact]
         public async Task GetWeeklyTotalTaxAsync_ReturnsFailureWhenVehicleNotFound()
         {
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
-
-            // No Vehicle records seeded
-            queryContext.SetData(new List<VehicleReadModel>());
+            //Arrange
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
 
             var provider = new VehicleTaxReadProvider(queryContext);
 
+            //Act
             var result = await provider.GetWeeklyTotalTaxAsync(99, CancellationToken.None);
 
+            //Assert
             Assert.False(result.IsSuccess);
         }
 
         [Fact]
         public async Task GetWeeklyTotalTaxAsync_ReturnsZeroWhenNoTolls()
         {
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
+            //Arrange
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
 
-            // Seed vehicle but no tolls
-            queryContext.SetData(new List<VehicleReadModel>
-        {
-            new () { VehicleId = 1, LicensePlate = "ABC123" }
-        });
+            queryContext.Vehicles.Add(
+                                new VehicleReadModel
+                                {
+                                    VehicleId = 1,
+                                    LicensePlate = "ABC123",
+                                    VehicleType = VehicleTypeReadModel.Car
+                                }
+                            );
+            queryContext.SaveChanges();
 
             var provider = new VehicleTaxReadProvider(queryContext);
 
+            //Act
             var result = await provider.GetWeeklyTotalTaxAsync(1, CancellationToken.None);
 
+            //Assert    
             Assert.True(result.IsSuccess);
             Assert.Equal(0, result.Value!.TotalTax);
             Assert.Equal("ABC123", result.Value.LicensePlate);
@@ -107,38 +110,46 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
         [Fact]
         public async Task GetWeeklyTotalTaxAsync_ReturnsSumWhenTollsExist()
         {
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
+            //Arrange
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
 
-            // Seed vehicle and tolls
-            queryContext.SetData(new List<VehicleReadModel>
-        {
-            new () { VehicleId = 1, LicensePlate = "XYZ789" }
-        });
+            queryContext.Vehicles.Add(
+                                new VehicleReadModel
+                                {
+                                    VehicleId = 1,
+                                    LicensePlate = "XYZ789",
+                                    VehicleType = VehicleTypeReadModel.Car
+                                }
+                            );
 
-            queryContext.SetData(new List<DayTollReadModel>
-        {
-            new ()
-            {
-                VehicleId = 1,
-                LicensePlate="XYZ789",
-                Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-3)),
-                City="TestCity",
-                TotalFee = 40
-            },
-            new ()
-            {
-                VehicleId = 1,
-                LicensePlate="XYZ789",
-                Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-2)),
-                City="TestCity",
-                TotalFee = 60
-            }
-        });
+            // Seed DayToll read models
+            queryContext.DayTolls.AddRange(
+                    new()
+                    {
+                        VehicleId = 1,
+                        LicensePlate = "XYZ789",
+                        Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-3)),
+                        City = "TestCity",
+                        TotalFee = 40
+                    },
+                    new()
+                    {
+                        VehicleId = 1,
+                        LicensePlate = "XYZ789",
+                        Date = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-2)),
+                        City = "TestCity",
+                        TotalFee = 60
+                    }
+                            );
+
+            queryContext.SaveChanges();
 
             var provider = new VehicleTaxReadProvider(queryContext);
 
+            //Act
             var result = await provider.GetWeeklyTotalTaxAsync(1, CancellationToken.None);
 
+            //Assert    
             Assert.True(result.IsSuccess);
             Assert.Equal(100, result.Value!.TotalTax);
             Assert.Equal("XYZ789", result.Value.LicensePlate);

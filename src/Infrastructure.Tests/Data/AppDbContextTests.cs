@@ -10,7 +10,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.Tests
             //Arrange
 
             //Act
-            using var context = SqliteInMemoryAppDbContextFactory.CreateContext();
+            using var context = AppDbContextTestFactory.CreateContext();
 
             //Assert
             Assert.NotNull(context);

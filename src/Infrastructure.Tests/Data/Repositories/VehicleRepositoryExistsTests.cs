@@ -13,7 +13,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.Repositories.Tests
         public async Task ExistsByPlateAsync_ShouldReturnTrue_WhenVehicleExists()
         {
             // Arrange
-            using var db = SqliteInMemoryAppDbContextFactory.CreateContext();
+            using var db = AppDbContextTestFactory.CreateContext();
             var repo = new VehicleRepository(db);
 
             var vehicle = new Vehicle("AAA111", VehicleType.Car);
@@ -32,7 +32,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.Repositories.Tests
         public async Task ExistsByPlateAsync_ShouldReturnFalse_WhenVehicleDoesNotExist()
         {
             // Arrange
-            using var db = SqliteInMemoryAppDbContextFactory.CreateContext();
+            using var db = AppDbContextTestFactory.CreateContext();
             var repo = new VehicleRepository(db);
 
             // Act

@@ -11,7 +11,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.Repositories.Tests
         public async Task Add_Vehicle_And_Find_By_Id_Should_Work()
         {
             // Arrange
-            var context = SqliteInMemoryAppDbContextFactory.CreateContext();
+            var context = AppDbContextTestFactory.CreateContext();
             var repo = new VehicleRepository(context);
 
             var item = new Vehicle(licensePlate: "AAA", vehicleType: VehicleType.Car);
@@ -36,7 +36,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.Repositories.Tests
         public async Task Add_Vehicle_And_Get_By_Plate_Should_Found()
         {
             // Arrange
-            var context = SqliteInMemoryAppDbContextFactory.CreateContext();
+            var context = AppDbContextTestFactory.CreateContext();
             var repo = new VehicleRepository(context);
 
             var item = new Vehicle(licensePlate: "AAA", vehicleType: VehicleType.Car);

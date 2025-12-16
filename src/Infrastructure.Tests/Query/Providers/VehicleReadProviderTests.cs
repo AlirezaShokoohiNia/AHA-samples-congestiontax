@@ -12,7 +12,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
         public async Task GetVehicleAsync_ShouldReturnFailure_WhenLicensePlateIsNullOrEmpty()
         {
             //Arrage
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
             var provider = new VehicleReadProvider(queryContext);
 
             // Act
@@ -31,9 +31,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
         public async Task GetVehicleAsync_ShouldReturnFailure_WhenVehicleNotFound()
         {
             //Arrange
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
-            var data = new List<VehicleReadModel> { };
-            queryContext.SetData(data);
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
             var provider = new VehicleReadProvider(queryContext);
 
             // Act
@@ -48,13 +46,16 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers.Tests
         public async Task GetVehicleAsync_ShouldReturnSuccess_WhenVehicleExists()
         {
             // Arrange
-            using var queryContext = SqliteInMemoryQueryDbContextFactory.CreateContext();
-            var data = new List<VehicleReadModel>
-                {
-                    new() { LicensePlate = "ABC123" }
-                };
-            queryContext.SetData(data);
-
+            using var queryContext = QueryDbContextTestFactory.CreateContext();
+            queryContext.Vehicles.Add(
+                                new VehicleReadModel
+                                {
+                                    VehicleId = 1,
+                                    LicensePlate = "ABC123",
+                                    VehicleType = VehicleTypeReadModel.Car
+                                }
+                            );
+            queryContext.SaveChanges();
             var provider = new VehicleReadProvider(queryContext);
 
             // Act

@@ -11,7 +11,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.Repositories.Tests
         [Fact]
         public async Task Add_DayToll_With_Passes_Should_Persist_Correctly()
         {
-            using var db = SqliteInMemoryAppDbContextFactory.CreateContext();
+            using var db = AppDbContextTestFactory.CreateContext();
 
             var vehicleRepo = new VehicleRepository(db);
             var dayTollRepo = new DayTollRepository(db);
@@ -48,7 +48,7 @@ namespace AHA.CongestionTax.Infrastructure.Data.Repositories.Tests
         {
             // Arrange
             var city = "Gothenburg";
-            var context = SqliteInMemoryAppDbContextFactory.CreateContext();
+            var context = AppDbContextTestFactory.CreateContext();
             var dayTollRepo = new DayTollRepository(context);
             var vehicleRepo = new VehicleRepository(context);
 

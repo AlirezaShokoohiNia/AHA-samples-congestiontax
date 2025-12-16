@@ -16,43 +16,6 @@ namespace AHA.CongestionTax.Infrastructure.Extensions
 
     public static partial class InfrastructureServiceCollectionExtensions
     {
-        [Obsolete("Use AddInfrastructureData, AddInfrastructureSource1, and AddInfrastructureSource2 instead.")]
-        public static IServiceCollection AddInfrastructure(
-                    this IServiceCollection services,
-                    IConfiguration config,
-                    bool skipDbContexts = false)
-        {
-            if (!skipDbContexts)
-            {
-                // DbContexts
-                _ = services.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlite(config.GetConnectionString("WriteDbConnection")));
-
-                _ = services.AddDbContext<QueryDbContext>(options =>
-                    options.UseSqlite(config.GetConnectionString("ReadDbConnection")));
-            }
-
-            // Options
-            _ = services.Configure<RuleSetOptions>(config.GetSection("RuleSet"));
-
-            // Providers
-            _ = services.AddScoped<IRuleSetReadProvider>(sp =>
-                        {
-                            var opts = sp.GetRequiredService<IOptions<RuleSetOptions>>().Value;
-                            return new RuleSetReadFileProvider(opts.BasePath);
-                        })
-                        .AddScoped<IVehicleTaxReadProvider, VehicleTaxReadProvider>()
-                        .AddScoped<IVehicleReadProvider, VehicleReadProvider>();
-
-            // Repositories
-            _ = services.AddScoped<IVehicleRepository, VehicleRepository>()
-                        .AddScoped<IDayTollRepository, DayTollRepository>();
-
-            // Domain Services
-            _ = services.AddScoped<ICongestionTaxCalculator, CongestionTaxCalculator>();
-            return services;
-        }
-
         /// <summary>
         /// Registers Infrastructure services for the write side of CQRS, including the
         /// <see cref="AppDbContext"/>.
