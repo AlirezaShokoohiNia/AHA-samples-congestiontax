@@ -8,8 +8,6 @@ namespace AHA.CongestionTax.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<PassRecord> builder)
         {
-            _ = builder.ToTable("PassRecords");
-
             _ = builder.HasKey(x => x.Id);
 
             _ = builder.Property(x => x.Id)

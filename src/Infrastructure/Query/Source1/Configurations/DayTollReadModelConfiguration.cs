@@ -17,6 +17,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1.Configurations
         /// <code>
         /// CREATE VIEW vw_DayTollWithVehicle AS
         ///     SELECT 
+        ///         v.Id As VehicleId
         ///         v.LicensePlate,
         ///         dt.Date,
         ///         dt.City,
@@ -28,7 +29,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1.Configurations
         public void Configure(EntityTypeBuilder<DayTollReadModel> builder)
         {
             _ = builder.ToView("vw_DayTollWithVehicle")
-                       .HasNoKey();
+                       .HasKey(dt => new { dt.VehicleId, dt.Date, dt.City });
         }
 
     }
