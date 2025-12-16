@@ -50,8 +50,8 @@ This layer bridges the Application abstractions with actual storage (SQL databas
 ## Testing
 
 - **Infrastructure.Tests** mirrors Infrastructure structure.  
-  - **Data**: Validate repositories and `AppDbContext` (`DayTollRepositoryTests`, `VehicleRepositoryTests`).  
-  - **Query.Source1**: In‑memory SQLite contexts (`SqliteInMemoryQueryDbContextFactory`, `TestQueryDbContext`) for isolated testing.  
+  - **Data**: Validate repositories and `AppDbContext` (`DayTollRepositoryTests`, `VehicleRepositoryTests`) in isolation by using In‑memory EF CORE contexts (`AppDbContextTestFactory`).  
+  - **Query.Source1**: In‑memory EF CORE contexts (`QueryDbContextTestFactory`) for isolated testing.  
   - **Query.Providers**: Validate file and database providers (`RuleSetReadFileProviderTests`, `VehicleReadProviderTests`).  
   - **Query.Mappers**: Ensure correctness of read model to DTO conversions.
 
