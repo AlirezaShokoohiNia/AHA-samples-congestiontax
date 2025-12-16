@@ -42,6 +42,7 @@ The project is structured using:
 
 For detailed architecture and patterns see [Architecture](docs/Architecture.md).  
 For testing approach see [Testing Strategy](docs/Testing-Strategy.md).
+For api endpoints quick reference see [Testing Strategy](docs/API-Summary.md).
 
 ---
 
