@@ -26,6 +26,7 @@ Tests are organized by architectural layer to ensure correctness and maintainabi
 - Endpoint validation  
 - Request/response correctness  
 - End-to-end scenarios across layers  
+- Use `EndpointTestWebApplicationFactory` for isolated infrastructure  
 - Focus: contract validation and system integration  
 
 ---
@@ -41,4 +42,5 @@ Tests are organized by architectural layer to ensure correctness and maintainabi
 ## Notes
 - Tests mirror folder structure (`Domain.Tests`, `Application.Tests`, `Infrastructure.Tests`, `API.Tests`).  
 - In-memory contexts and JSON files are used for deterministic test data.  
+- Each test suite runs in isolation to avoid cross-contamination.   
 - Strategy aligns with Clean Architecture: each layer tested in isolation, with integration tests for cross-layer validation.  
