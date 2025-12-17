@@ -18,7 +18,7 @@ namespace AHA.CongestionTax.Infrastructure.Migrations.Sqlite.Tests.Fixtures
         {
             // Ensure clean DB once
             var factory = new AppDbContextMigrationFactory();
-            Context = factory.CreateDbContext([]);
+            Context = factory.CreateDbContext(["testcongetiontax.db"]);
             Context.Database.Migrate();
 
         }
