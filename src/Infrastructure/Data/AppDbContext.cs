@@ -47,7 +47,10 @@ namespace AHA.CongestionTax.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             // Apply all IEntityTypeConfiguration<T> in this assembly
-            _ = modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+            _ = modelBuilder.ApplyConfigurationsFromAssembly(
+                    typeof(AppDbContext).Assembly,
+                    t => t.Namespace != null && t.Namespace.Contains("AHA.CongestionTax.Infrastructure.Data.Configurations"));
+
         }
     }
 }
