@@ -1,4 +1,5 @@
 ﻿using System;
+using AHA.CongestionTax.Infrastructure.Migrations.Extensions;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -76,11 +77,18 @@ namespace Infrastructure.Migrations.SQLite
                 name: "IX_PassRecord_DayTollId",
                 table: "PassRecord",
                 column: "DayTollId");
+
+
+            // Create the vw_DayTollWithVehicles view after tables are created
+            migrationBuilder.CreateView("vw_DayTollWithVehicles");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            // Drop the vw_DayTollWithVehicles view before dropping tables
+            migrationBuilder.DropView("vw_DayTollWithVehicles");
+
             migrationBuilder.DropTable(
                 name: "PassRecord");
 
