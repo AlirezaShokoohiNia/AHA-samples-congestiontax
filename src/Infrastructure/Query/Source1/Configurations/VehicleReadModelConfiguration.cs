@@ -15,7 +15,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Source1.Configurations
         /// </summary>
         public void Configure(EntityTypeBuilder<VehicleReadModel> builder)
         {
-            _ = builder.ToTable("Vehicle")
+            _ = builder.ToTable("Vehicles")
                        .HasKey(v => v.VehicleId);
         }
 
