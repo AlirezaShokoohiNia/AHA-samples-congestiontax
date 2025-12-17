@@ -26,8 +26,15 @@ namespace AHA.CongestionTax.Infrastructure.Migrations.Sqlite
         /// </summary>
         public AppDbContext CreateDbContext(string[] args)
         {
-            var dbName = "testcongestiontax.db";
-            var dbPath = Path.Combine(AppContext.BaseDirectory, dbName);
+            var dbName = "congestiontax.db";
+            var dbProvider = "Sqlite";
+            var dbFolder = "Data";
+            var dbPath = Path.Combine(AppContext.BaseDirectory, dbProvider, dbFolder, dbName);
+            if (args.Length > 0)
+            {
+                // simple override: first arg is db path
+                dbPath = args[0];
+            }
 
             // Ensure fresh DB
             EnsureCleanDatabase(dbPath);
