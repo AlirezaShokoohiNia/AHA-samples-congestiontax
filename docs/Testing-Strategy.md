@@ -29,6 +29,11 @@ Tests are organized by architectural layer to ensure correctness and maintainabi
 - Use `EndpointTestWebApplicationFactory` for isolated infrastructure  
 - Focus: contract validation and system integration  
 
+## Migration Tests
+- Validate schema evolution (tables, views, indexes).
+- Ensure migrations apply cleanly and produce expected artifacts.
+- Focus: reproducibility and auditability of schema changes.
+
 ---
 
 ## Benefits of TDD
