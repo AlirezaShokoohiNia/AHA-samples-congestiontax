@@ -47,6 +47,14 @@ This layer bridges the Application abstractions with actual storage (SQL databas
 
 ---
 
+## Migrations
+- Contained in `Infrastructure.Migrations` project.
+- Responsible for schema evolution and view creation.
+- Tested via `Infrastructure.Migrations.Tests` to ensure schema artifacts exist as expected.
+- Isolated from runtime Infrastructure code to keep migrations reproducible and auditable.
+
+---
+
 ## Testing
 
 - **Infrastructure.Tests** mirrors Infrastructure structure.  
