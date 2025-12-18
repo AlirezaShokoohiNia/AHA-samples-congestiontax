@@ -1,6 +1,8 @@
 using AHA.CongestionTax.Api.Endpoints;
+using AHA.CongestionTax.Api.Extensions;
 using AHA.CongestionTax.Application.Extensions;
 using AHA.CongestionTax.Infrastructure.Extensions;
+using AHA.CongestionTax.Infrastructure.Migrations.Sqlite;
 using AHA.CongestionTax.Infrastructure.Query.Source2.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
@@ -14,12 +16,15 @@ builder.Services.AddApplication();
 if (!builder.Environment.IsEnvironment("Test"))
 {
     // Infrastructure: write side (AppDbContext)
+    var writeDbConnStr = builder.Configuration.GetWriteDbConnectionString();
     builder.Services.AddInfrastructureData(opts =>
-        opts.UseSqlite(builder.Configuration.GetConnectionString("WriteDbConnection")));
+        opts.UseSqlite(writeDbConnStr,
+        o => o.MigrationsAssembly(typeof(MigrationsExtensions).Assembly)));
 
     // Infrastructure: read side (QueryDbContext)
+    var readDbConnStr = builder.Configuration.GetReadDbConnectionString();
     builder.Services.AddInfrastructureSource1(opts =>
-        opts.UseSqlite(builder.Configuration.GetConnectionString("ReadDbConnection")));
+        opts.UseSqlite(readDbConnStr));
 }
 // Infrastructure: JSON/file sources
 builder.Services.AddInfrastructureSource2();
