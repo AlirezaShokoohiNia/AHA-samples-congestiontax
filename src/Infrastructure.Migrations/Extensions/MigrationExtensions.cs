@@ -3,6 +3,7 @@ namespace AHA.CongestionTax.Infrastructure.Migrations.Extensions
     using System.IO;
     using Microsoft.EntityFrameworkCore.Migrations;
 
+    [Obsolete("This class is obsolete and will be removed in future versions. Try using MigrationBuilderExtensions instead.", false)]
     public static class MigrationExtensions
     {
         /// <summary>
