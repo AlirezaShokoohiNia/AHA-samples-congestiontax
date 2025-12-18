@@ -19,12 +19,21 @@ CREATE VIEW vw_DayTollWithVehicles AS
     FROM DayTolls dt
     JOIN Vehicles v ON dt.VehicleId = v.Id;");
 
+            migrationBuilder.Sql(@"
+CREATE VIEW vw_Vehicles AS
+    SELECT 
+        v.Id As VehicleId,
+        v.LicensePlate,
+        v.VehicleType
+    FROM Vehicles v;");
+
         }
 
         public static void DropViews(this MigrationBuilder migrationBuilder)
         {
             // Drop the views before dropping tables
             migrationBuilder.Sql(@"DROP VIEW IF EXISTS vw_DayTollWithVehicles;");
+            migrationBuilder.Sql(@"DROP VIEW IF EXISTS vw_Vehicles;");
         }
     }
 }
