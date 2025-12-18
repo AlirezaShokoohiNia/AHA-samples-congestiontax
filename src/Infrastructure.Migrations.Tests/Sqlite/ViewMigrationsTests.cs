@@ -8,6 +8,7 @@ namespace AHA.CongestionTax.Infrastructure.Migrations.Sqlite.Tests
     {
         [Theory]
         [InlineData("vw_DayTollWithVehicles")]
+        [InlineData("vw_Vehicles")]
         public void View_Should_Exist(string viewName)
         {
             // Arrange
