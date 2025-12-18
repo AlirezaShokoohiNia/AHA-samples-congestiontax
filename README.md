@@ -60,6 +60,8 @@ src/
  ├── Domain.Tests/
  ├── Infrastructure/
  ├── Infrastructure.Tests/
+ ├── Infrastructure.Migrations/
+ ├── Infrastructure.Migrations.Tests/
 ```
 
 Namespaces follow:  
