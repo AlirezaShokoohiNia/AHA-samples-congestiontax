@@ -71,6 +71,9 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+// Migration role: apply migrations once at startup
+MigrationsExtensions.ApplySqliteMigrations(app.Services);
+
 #region Register CQRS endpoints
 
 PassEndpoints.Map(app);
