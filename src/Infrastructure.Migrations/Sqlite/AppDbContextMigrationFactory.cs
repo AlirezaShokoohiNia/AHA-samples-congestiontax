@@ -19,6 +19,11 @@ namespace AHA.CongestionTax.Infrastructure.Migrations.Sqlite
             {
                 File.Delete(dbPath);
             }
+            else
+            {
+                // Create directory if it doesn't exist
+                _ = Directory.CreateDirectory(Path.GetDirectoryName(dbPath)!);
+            }
         }
 
         /// <summary>
