@@ -4,7 +4,7 @@
 - [Domain](./Architecture-Domain.md)
 - [Application](./Architecture-Application.md)
 - [Infrastructure](./Architecture-Infrastructure.md)
-- [API](./Architecture-API.md)
+- [API](./Architecture-Api.md)
 
 ## Patterns
 - Domain-Driven Design (DDD)
