@@ -6,9 +6,9 @@ namespace AHA.CongestionTax.Infrastructure.Migrations.Sqlite.Tests
     [Collection("Database collection")]
     public class ViewMigrationsTests(DatabaseFixture fixture)
     {
-
-        [Fact]
-        public void View_DayTollWithVehicles_Should_Exist()
+        [Theory]
+        [InlineData("vw_DayTollWithVehicles")]
+        public void View_Should_Exist(string viewName)
         {
             // Arrange
             var context = fixture.Context;
@@ -18,7 +18,7 @@ namespace AHA.CongestionTax.Infrastructure.Migrations.Sqlite.Tests
 
             // Act
             using var command = connection.CreateCommand();
-            command.CommandText = "SELECT COUNT(*) FROM vw_DayTollWithVehicles;";
+            command.CommandText = $"SELECT COUNT(*) FROM {viewName};";
 #pragma warning disable CS8605 // Unboxing a possibly null value.
             var result = (long)command.ExecuteScalar(); // SQLite returns Int64
 #pragma warning restore CS8605 // Unboxing a possibly null value.
