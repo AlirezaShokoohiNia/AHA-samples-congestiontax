@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Assets\**" CopyToOutputDirectory="Always" />
-    <Content Include="Sqlite\Data\**" CopyToOutputDirectory="Always" />
-  </ItemGroup>
 </Project>
