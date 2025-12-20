@@ -1,5 +1,5 @@
-# AHA Congestion Tax – Sample Architecture  
-A clean, extensible, domain-driven implementation of the *Congestion Tax* problem, demonstrating production-grade architectural practices in a compact and reviewable codebase.
+# AHA Congestion Tax – Senior Backend Sample
+Production‑grade DDD + CQRS + TDD in a compact, reviewable codebase
 
 ---
 
