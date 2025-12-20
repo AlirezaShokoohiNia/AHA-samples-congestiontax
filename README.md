@@ -1,7 +1,14 @@
 # AHA Congestion Tax – Senior Backend Sample
 Production‑grade DDD + CQRS + TDD in a compact, reviewable codebase
 
+![.NET](https://img.shields.io/badge/.NET-9.0-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Last Commit](https://img.shields.io/github/last-commit/AlirezaShokoohiNia/AHA-samples-congestiontax)
+![Repo Size](https://img.shields.io/github/repo-size/AlirezaShokoohiNia/AHA-samples-congestiontax)
+![Tests](https://img.shields.io/badge/tests-TDD%20coverage-success)
+
 ---
+
 
 ## 📘 Overview  
 This repository contains a structured, testable, and scalable implementation of a congestion tax calculation service.  
