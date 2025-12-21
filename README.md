@@ -8,14 +8,21 @@ Production‑grade DDD + CQRS + TDD in a compact, reviewable codebase
 ![Tests](https://img.shields.io/badge/tests-TDD%20coverage-success)
 
 ---
-
-
 ## 📘 Overview  
 This repository contains a structured, testable, and scalable implementation of a congestion tax calculation service.  
 The goal is clarity, correctness, and maintainability.
 
 ---
 
+## 🧩 Architecture at a Glance
+
+<p align="center">
+  <img src="docs/Architecture-Overview.svg" width="420" alt="Architecture Overview Diagram">
+</p>
+
+This diagram presents the high‑level structure of the system.  
+
+---
 ## 🟦 WHAT – The Business Requirement
 
 The system calculates congestion tax fees for vehicles entering/exiting a city.  
