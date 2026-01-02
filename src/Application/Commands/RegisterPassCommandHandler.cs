@@ -69,7 +69,7 @@ namespace AHA.CongestionTax.Application.Commands
                 dayToll,
                 [.. MappingHelper.MapEach(rules.TimeSlots, TimeSlotRuleDtoToTimeSlotAdapter.Adapt)],
                 HolidayRuleDtoToDateOnlyMapper.MapMany(rules.Holidays),
-                VehicleFreeRuleDtoToVehicleTypeMapper.MapMany(rules.TollFreeVehicles),
+                MappingHelper.MapEach(rules.TollFreeVehicles, VehicleFreeRuleDtoToVehicleTypeAdapter.Adapt).ToHashSet(),
                 60);
 
             if (!calcResult.IsSuccess)
