@@ -63,13 +63,26 @@ namespace AHA.CongestionTax.Application.Commands
                 return CommandResult.Failure<int>(rulesResult.Error ?? $"Ruleset not found for city {command.City}");
 
             var rules = rulesResult.Value;
+            var timeSlots = MappingHelper.MapEach(
+                    rules.TimeSlots,
+                    TimeSlotRuleDtoToTimeSlotAdapter.Adapt)
+                    .ToList();
+            var holidayDates = MappingHelper.MapEach(
+                    rules.Holidays,
+                    HolidayRuleDtoToDatesMapper.Map)
+                    .SelectMany(d => d)
+                    .ToHashSet();
+            var tollFreeVehicleTypes = MappingHelper.MapEach(
+                    rules.TollFreeVehicles,
+                    VehicleFreeRuleDtoToVehicleTypeAdapter.Adapt)
+                    .ToHashSet();
 
             // Step 5: Calculate fee
             var calcResult = taxCalculator.CalculateDailyFee(
                 dayToll,
-                [.. MappingHelper.MapEach(rules.TimeSlots, TimeSlotRuleDtoToTimeSlotAdapter.Adapt)],
-                HolidayRuleDtoToDateOnlyMapper.MapMany(rules.Holidays),
-                MappingHelper.MapEach(rules.TollFreeVehicles, VehicleFreeRuleDtoToVehicleTypeAdapter.Adapt).ToHashSet(),
+                timeSlots,
+                holidayDates,
+                tollFreeVehicleTypes,
                 60);
 
             if (!calcResult.IsSuccess)
