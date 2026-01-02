@@ -6,6 +6,7 @@ namespace AHA.CongestionTax.Application.Mappers
     /// <summary>
     /// Maps a TimeSlotRule dto into a TimeSlot vo.
     /// </summary>
+    [Obsolete("Use TimeSlotRuleDtoToTimeSlotAdapter instead.")]
     public static class TimeSlotRuleDtoToTimeSlotMapper
     {
         /// <summary>

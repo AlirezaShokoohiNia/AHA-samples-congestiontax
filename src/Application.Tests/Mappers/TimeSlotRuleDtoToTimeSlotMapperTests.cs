@@ -3,6 +3,7 @@ namespace AHA.CongestionTax.Application.Mappers.Tests
     using AHA.CongestionTax.Application.DTOs;
     using Xunit;
 
+    [Obsolete("Use TimeSlotRuleDtoToTimeSlotAdapterTests instead.")]
     public class TimeSlotRuleDtoToTimeSlotMapperTests
     {
         [Fact]
