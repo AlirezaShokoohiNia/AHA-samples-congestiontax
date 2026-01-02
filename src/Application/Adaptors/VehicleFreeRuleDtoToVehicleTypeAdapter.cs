@@ -9,6 +9,9 @@ namespace AHA.CongestionTax.Application.Adapters
     {
         public static VehicleType Adapt(VehicleFreeRuleDto dto)
         {
+            if (string.IsNullOrWhiteSpace(dto.VehicleType))
+                return VehicleType.Unknown;
+
             // Normalize input
             var type = dto.VehicleType.Trim().ToLowerInvariant();
 
