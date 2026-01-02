@@ -5,6 +5,7 @@ namespace AHA.CongestionTax.Application.Mappers
     /// <summary>
     /// Maps HolidayRuleDto into DateOnly values for domain usage.
     /// </summary>
+    [Obsolete("Use HolidayRuleDtoToDatesMapper instead.", false)]
     public static class HolidayRuleDtoToDateOnlyMapper
     {
         /// <summary>
