@@ -2,8 +2,10 @@ namespace AHA.CongestionTax.Application.Commands
 {
     using System.Threading;
     using System.Threading.Tasks;
+    using AHA.CongestionTax.Application.Abstractions.Adapter;
     using AHA.CongestionTax.Application.Abstractions.Command;
     using AHA.CongestionTax.Application.Abstractions.Query;
+    using AHA.CongestionTax.Application.Adapters;
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Application.Mappers;
     using AHA.CongestionTax.Application.Queries;
@@ -65,7 +67,7 @@ namespace AHA.CongestionTax.Application.Commands
             // Step 5: Calculate fee
             var calcResult = taxCalculator.CalculateDailyFee(
                 dayToll,
-                TimeSlotRuleDtoToTimeSlotMapper.MapMany(rules.TimeSlots),
+                [.. MappingHelper.MapEach(rules.TimeSlots, TimeSlotRuleDtoToTimeSlotAdapter.Adapt)],
                 HolidayRuleDtoToDateOnlyMapper.MapMany(rules.Holidays),
                 VehicleFreeRuleDtoToVehicleTypeMapper.MapMany(rules.TollFreeVehicles),
                 60);
