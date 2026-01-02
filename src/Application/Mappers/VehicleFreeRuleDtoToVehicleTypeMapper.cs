@@ -6,6 +6,7 @@ namespace AHA.CongestionTax.Application.Mappers
     /// <summary>
     /// Maps VehicleFreeRuleDto into VehicleType enum values.
     /// </summary>
+    [Obsolete("Use VehicleFreeRuleDtoToVehicleTypeAdapter instead.")]
     public static class VehicleFreeRuleDtoToVehicleTypeMapper
     {
         /// <summary>

@@ -4,9 +4,15 @@ namespace AHA.CongestionTax.Application.Adapters
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Domain.ValueObjects;
 
+    /// <summary>
+    /// Adapts VehicleFreeRuleDto into VehicleType enum values.
+    /// </summary>
     public class VehicleFreeRuleDtoToVehicleTypeAdapter
         : ITypeAdapter<VehicleFreeRuleDto, VehicleType>
     {
+        /// <summary>
+        /// Converts a single VehicleFreeRuleDto into a VehicleType enum.
+        /// </summary>
         public static VehicleType Adapt(VehicleFreeRuleDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.VehicleType))

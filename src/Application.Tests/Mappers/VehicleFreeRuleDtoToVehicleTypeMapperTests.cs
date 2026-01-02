@@ -4,6 +4,7 @@ namespace AHA.CongestionTax.Application.Mappers.Tests
     using AHA.CongestionTax.Domain.ValueObjects;
     using Xunit;
 
+    [Obsolete("Use VehicleFreeRuleDtoToVehicleTypeAdapterTests instead")]
     public class VehicleFreeRuleDtoToVehicleTypeMapperTests
     {
         [Theory]
