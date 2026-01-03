@@ -5,6 +5,9 @@ namespace AHA.CongestionTax.Infrastructure.Query.Adapters
     using AHA.CongestionTax.Infrastructure.Query.Mappers;
     using AHA.CongestionTax.Infrastructure.Query.Source2.ReadModels;
 
+    /// <summary>
+    /// Adapter to convert RuleSetReadModel to RuleSetDto
+    /// </summary>
     public class RuleSetReadModelToRuleSetDtoAdapter
         : ITypeAdapter<RuleSetReadModel, RuleSetDto>
     {

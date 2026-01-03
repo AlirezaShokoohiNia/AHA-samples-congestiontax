@@ -12,6 +12,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers
         /// <summary>
         /// Converts a single Vehicle read model into a Vehicle DTO.
         /// </summary>
+        [Obsolete("This mapper is deprecated and will be removed in future versions. using VehicleReadModelToVehicleDTOMapper instead.")]
         public static VehicleDto Map(VehicleReadModel readModel)
         {
             var vehicleTypeCaption = readModel.VehicleType switch

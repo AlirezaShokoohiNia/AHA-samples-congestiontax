@@ -7,6 +7,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers
     /// <summary>
     /// Maps a HolidayRule read model into a HolidayRule dto.
     /// </summary>
+    [Obsolete("This mapper is deprecated and will be removed in future versions. using HolidayRuleReadModelToHolidayRuleDtoAdapter instead.")]
     public class HolidayRuleReadModelToHolidayRuleDtoMapper
         : IReadModelToDtoMapper<HolidayRuleReadModel, HolidayRuleDto>
     {

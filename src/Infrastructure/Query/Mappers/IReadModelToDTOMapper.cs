@@ -15,6 +15,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers
     /// This feature is particularly useful in generic contexts where you want to guarantee
     /// that all mappers provide consistent static mapping methods.
     /// </remarks>
+    [Obsolete("This interface is deprecated and will be removed in future versions. using IMapperAdapter And ITypeAdapter instead.")]
     public interface IReadModelToDtoMapper<TReadModel, TDto>
     {
         /// <summary>

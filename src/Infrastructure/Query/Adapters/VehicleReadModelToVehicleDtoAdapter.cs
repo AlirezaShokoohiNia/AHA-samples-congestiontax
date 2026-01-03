@@ -4,6 +4,9 @@ namespace AHA.CongestionTax.Infrastructure.Query.Adapters
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Infrastructure.Query.Source1.ReadModels;
 
+    /// <summary>
+    /// Adapter to convert VehicleReadModel to VehicleDto
+    /// </summary>
     public class VehicleReadModelToVehicleDtoAdapter
         : ITypeAdapter<VehicleReadModel, VehicleDto>
     {

@@ -4,6 +4,9 @@ namespace AHA.CongestionTax.Infrastructure.Query.Adapters
     using AHA.CongestionTax.Application.DTOs;
     using AHA.CongestionTax.Infrastructure.Query.Source2.ReadModels;
 
+    /// <summary>
+    /// Adapter to convert HolidayRuleReadModel to HolidayRuleDto
+    /// </summary>
     public class HolidayRuleReadModelToHolidayRuleDtoAdapter
         : ITypeAdapter<HolidayRuleReadModel, HolidayRuleDto>
     {

@@ -7,6 +7,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers
     /// <summary>
     /// Maps a RuleSet read model into a RuleSet dto.
     /// </summary>
+    [Obsolete("This mapper is deprecated and will be removed in future versions. using RuleSetReadModelToRuleSetDtoAdapter instead.")]
     public class RuleSetReadModelToRuleSetDto
         : IReadModelToDtoMapper<RuleSetReadModel, RuleSetDto>
     {

@@ -6,6 +6,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers
     /// <summary>
     /// Maps a DayToll read model into a VehicleDailyTax dto.
     /// </summary>
+    [Obsolete("This mapper is deprecated and will be removed in future versions. using DayTollReadModelVehicleDailyTaxDtoAdapter instead.")]
     public class DayTollReadModelVehicleDailyTaxDtoMapper
         : IReadModelToDtoMapper<DayTollReadModel, VehicleDailyTaxDto>
     {

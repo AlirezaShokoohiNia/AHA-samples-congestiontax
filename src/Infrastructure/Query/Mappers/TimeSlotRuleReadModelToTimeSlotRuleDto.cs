@@ -7,6 +7,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers
     /// <summary>
     /// Maps a TimeSlotRule read model into a TimeSlotRule dto.
     /// </summary>
+    [Obsolete("This mapper is deprecated and will be removed in future versions. using TimeSlotRuleReadModelToTimeSlotRuleDtoAdapter instead.")]
     public class TimeSlotRuleReadModelToTimeSlotRuleDto
         : IReadModelToDtoMapper<TimeSlotRuleReadModel, TimeSlotRuleDto>
     {

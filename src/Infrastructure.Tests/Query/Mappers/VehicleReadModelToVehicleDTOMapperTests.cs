@@ -3,6 +3,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers.Tests
     using AHA.CongestionTax.Infrastructure.Query.Mappers;
     using AHA.CongestionTax.Infrastructure.Query.Source1.ReadModels;
 
+    [Obsolete("This test class is obsolete and will be removed in future versions. using VehicleReadModelToVehicleDtoAdapterTests instead.")]
     public class VehicleReadModelToVehicleDTOMapperTests
     {
 

@@ -7,6 +7,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Mappers
     /// <summary>
     /// Maps a TollFreeVehicleRule read model into a VehicleFreeRule dto.
     /// </summary>
+    [Obsolete("This mapper is deprecated and will be removed in future versions. using TollFreeVehicleRuleReadModelToVehicleFreeRuleDtoAdapter instead.")]
     public class TollFreeVehicleRuleReadModelToVehicleFreeRuleDto
         : IReadModelToDtoMapper<TollFreeVehicleRuleReadModel, VehicleFreeRuleDto>
     {
