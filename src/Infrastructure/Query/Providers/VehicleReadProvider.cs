@@ -5,7 +5,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
     using AHA.CongestionTax.Application.Abstractions.Query;
     using AHA.CongestionTax.Application.Abstractions.Query.Providers;
     using AHA.CongestionTax.Application.DTOs;
-    using AHA.CongestionTax.Infrastructure.Query.Mappers;
+    using AHA.CongestionTax.Infrastructure.Query.Adapters;
     using AHA.CongestionTax.Infrastructure.Query.Source1;
     using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +25,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
                     .FirstOrDefaultAsync(v => v.LicensePlate == licensePlate, cancellationToken);
                 return vehicle is null
                     ? QueryResult.Failure<VehicleDto>($"Vehicle with plate {licensePlate} not found.")
-                    : QueryResult.Success(VehicleReadModelToVehicleDTOMapper.Map(vehicle));
+                    : QueryResult.Success(VehicleReadModelToVehicleDtoAdapter.Adapt(vehicle));
             }
             catch (Exception ex)
             {

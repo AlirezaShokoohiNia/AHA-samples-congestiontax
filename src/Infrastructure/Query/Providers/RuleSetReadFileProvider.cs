@@ -6,7 +6,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
     using AHA.CongestionTax.Application.Abstractions.Query;
     using AHA.CongestionTax.Application.Abstractions.Query.Providers;
     using AHA.CongestionTax.Application.DTOs;
-    using AHA.CongestionTax.Infrastructure.Query.Mappers;
+    using AHA.CongestionTax.Infrastructure.Query.Adapters;
     using AHA.CongestionTax.Infrastructure.Query.Source2.ReadModels;
 
     /// <summary>
@@ -51,7 +51,7 @@ namespace AHA.CongestionTax.Infrastructure.Query.Providers
                         $"Failed to deserialize rule set for city '{city}'.");
                 }
 
-                return QueryResult.Success(RuleSetReadModelToRuleSetDto.Map(model));
+                return QueryResult.Success(RuleSetReadModelToRuleSetDtoAdapter.Adapt(model));
             }
             catch (JsonException jex)
             {

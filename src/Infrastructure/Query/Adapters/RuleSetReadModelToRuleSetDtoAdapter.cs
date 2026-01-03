@@ -2,7 +2,6 @@ namespace AHA.CongestionTax.Infrastructure.Query.Adapters
 {
     using AHA.CongestionTax.Application.Abstractions.Adapter;
     using AHA.CongestionTax.Application.DTOs;
-    using AHA.CongestionTax.Infrastructure.Query.Mappers;
     using AHA.CongestionTax.Infrastructure.Query.Source2.ReadModels;
 
     /// <summary>
@@ -13,9 +12,17 @@ namespace AHA.CongestionTax.Infrastructure.Query.Adapters
     {
         public static RuleSetDto Adapt(RuleSetReadModel readModel)
         {
-            var timeSlotDtos = TimeSlotRuleReadModelToTimeSlotRuleDto.MapMany(readModel.TimeSlots);
-            var holidayDtos = HolidayRuleReadModelToHolidayRuleDtoMapper.MapMany(readModel.Holidays);
-            var vehicleFreeDtos = TollFreeVehicleRuleReadModelToVehicleFreeRuleDto.MapMany(readModel.TollFreeVehicles);
+            var timeSlotDtos = MappingHelper.MapEach(
+                    readModel.TimeSlots,
+                    TimeSlotRuleReadModelToTimeSlotRuleDtoAdapter.Adapt);
+
+            var holidayDtos = MappingHelper.MapEach(
+                readModel.Holidays,
+                HolidayRuleReadModelToHolidayRuleDtoAdapter.Adapt);
+
+            var vehicleFreeDtos = MappingHelper.MapEach(
+                readModel.TollFreeVehicles,
+                TollFreeVehicleRuleReadModelToVehicleFreeRuleDtoAdapter.Adapt);
 
             return new RuleSetDto()
             {
