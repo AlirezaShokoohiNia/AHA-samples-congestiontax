@@ -28,11 +28,11 @@ This layer enforces CQRS separation and ensures testable, maintainable orchestra
 - **DTOs**  
   Data transfer objects for external contracts.  
   - Represent rules, vehicles, and tax calculations (`RuleSetDto`, `VehicleDto`, `VehicleDailyTaxDto`, etc.).  
-  - Used for serialization and mapping between infrastructure and domain.
+  - Used for serialization and transforming between infrastructure and domain.
 
-- **Mappers**  
+- **TypeAdapters/Mappers**  
   Convert DTOs into domain value objects.  
-  - Example: `HolidayRuleDtoToDateOnlyMapper`, `TimeSlotRuleDtoToTimeSlotMapper`.  
+  - Example: `HolidayRuleDtoToDatesMapper`, `TimeSlotRuleDtoToTimeSlotAdapter`.  
   - Ensure correctness and isolation between transport and domain models.
 
 - **Exceptions**  
@@ -63,7 +63,7 @@ This layer enforces CQRS separation and ensures testable, maintainable orchestra
 - **Application.Tests** mirrors the Application structure.  
   - **Commands**: Validate command handlers (`RegisterPassCommandHandlerTests`).  
   - **Queries**: Validate query handlers (`GetVehicleQueryHandlerTests`, etc.).  
-  - **Mappers**: Ensure DTO‑to‑domain conversions are correct.  
+  - **TypeAdapters/Mappers**: Ensure DTO‑to‑domain conversions are correct.  
 - Tests enforce correctness, isolation, and maintainability across the Application layer.
 
 ---
@@ -72,7 +72,7 @@ This layer enforces CQRS separation and ensures testable, maintainable orchestra
 The Application layer is the orchestration hub:  
 - Commands enforce domain rules and persist state.  
 - Queries provide flexible read models via providers.  
-- DTOs and Mappers bridge external contracts with domain value objects.  
+- DTOs and TypeAdapters/Mappers bridge external contracts with domain value objects.  
 - Abstractions define clear boundaries for extensibility and testability.  
 
 ---
@@ -81,9 +81,10 @@ The Application layer is the orchestration hub:
 - Application layer orchestrates domain logic via commands and queries.  
 - CQRS separation is enforced: write side depends on Domain, read side uses providers.  
 - Read side supports multiple sources (database + JSON RuleSets) without coupling to domain internals.  
-- DTOs and mappers isolate transport contracts from domain value objects.  
+- DTOs and typeadapters/mappers isolate transport contracts from domain value objects.  
 - Abstractions define clear boundaries for extensibility and testability.  
-- Handlers remain thin: delegate business rules to Domain, delegate persistence to Infrastructure.  
-- Mappers are designed with future alignment to `Infrastructure.Crosscutting.ITypeAdapter`, ensuring consistent adaptation strategy across layers.  
+- Handlers remain thin: delegate business rules to Domain, delegate persistence to Infrastructure.
+- TypeAdapters are designed with future alignment to `Application.Abstractions.Adapter.ITypeAdapter`, ensuring consistent adaptation strategy across layers.  
+- Mappers are designed with future alignment to `Application.Abstractions.Adapter.IMapper`, ensuring consistent mapping strategy across layers.  
 
 ---
